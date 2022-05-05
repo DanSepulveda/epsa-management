@@ -1,5 +1,6 @@
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
+import SubmitButton from '../atoms/SubmitButton'
 import InputText from '../molecules/InputText'
 
 const LogForm = ({ tag }) => {
@@ -16,22 +17,21 @@ const LogForm = ({ tag }) => {
             validationSchema={validationSchema}
             onSubmit={values => console.log(values)}
         >
-            <Form className='w-full'>
+            <Form className='w-full' style={{ 'minWidth': '20vw' }}>
                 <InputText
+                    label='Correo electrónico'
                     name='email'
                     id='email'
-                    placeholder='Correo'
+                    placeholder='ejemplo@ejemplo.com'
                 />
                 <InputText
                     label='Contraseña'
                     name='password'
                     id='password'
-                    placeholder='Contraseña'
+                    placeholder='Ingrese su contraseña'
                     type='password'
                 />
-                <button type='submit' className='bg-gradient-to-r from-pink-600 to-pink-400 w-full py-3 text-white font-medium'>
-                    {tag === 'login' ? 'Ingresar' : 'Registrarme'}
-                </button>
+                <SubmitButton>{tag === 'login' ? 'Ingresar' : 'Registrarme'}</SubmitButton>
             </Form>
         </Formik>
     )
