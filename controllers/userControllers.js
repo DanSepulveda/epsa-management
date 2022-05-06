@@ -1,4 +1,4 @@
-const { getAuth, createUserWithEmailAndPassword, signInWithCustomToken, } = require('firebase/auth')
+const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } = require('firebase/auth')
 const app = require('../config/firebase')
 const User = require('../models/User')
 
@@ -9,36 +9,32 @@ const userControllers = {
         const { email, password } = req.body
         try {
             const fb_user = await createUserWithEmailAndPassword(auth, email, password)
-            // const newUser = new User({ email, password })
-            // await newUser.save()
-            res.status(200).json({ success: true, response: fb_user })
+            const newUser = new User({ email, uid: fb_user.user.uid })
+            await newUser.save()
+            return res.status(200).json({ success: true, response: { email, _id: newUser._id }, message: null })
         } catch (error) {
-            res.json({ success: false, response: error })
+            return res.json({ success: false, response: null, message: error })
         }
-
-        //     .then((userCredential) => {
-        //     // Signed in
-        //     const user = userCredential.user;
-        //     // ...
-        // })
-        // .catch((error) => {
-        //     const errorCode = error.code;
-        //     const errorMessage = error.message;
-        //     // ..
-        // });
     },
     login: async (req, res) => {
-        const lala = auth.currentUser
-        console.log(lala)
-        // try {
-
-        //     const token = req.headers.authorization
-        //     console.log(token)
-        //     const response = await signInWithCustomToken(auth, token)
-        // } catch (e) {
-        //     res.json({ success: false, response: e })
-
-        // }
+        const { email, password } = req.body
+        try {
+            const fb_user = await signInWithEmailAndPassword(auth, email, password)
+            const uid = fb_user.user.uid
+            const mongo_user = await User.findOne({ uid })
+            return res.status(200).json({ success: true, response: { email, _id: mongo_user._id }, message: null })
+        } catch (error) {
+            return res.json({ success: false, response: null, message: error })
+        }
+    },
+    verifyToken: async (req, res) => {
+        if (req.currentUser) {
+            const { email, _id } = req.currentUser
+            // const { uid, reloadUserInfo } = user
+            return res.status(200).json({ success: true, response: { email, _id }, message: null })
+        } else {
+            return res.json({ success: false, response: null, message: 'error' })
+        }
     }
 }
 

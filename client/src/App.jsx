@@ -1,15 +1,33 @@
 import './App.css'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import LogPage from './pages/LogPage'
+import { useEffect } from 'react'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { userState, loginWithToken } from './redux/userSlice'
 import Main from './components/atoms/Main'
+import LogPage from './pages/LogPage'
+import Dashboard from './pages/Dashboard'
 
 const App = () => {
+  const id = useSelector(userState)._id
+  const dispatch = useDispatch()
+
+  const refreshLogin = async () => {
+    await dispatch(loginWithToken())
+  }
+
+  useEffect(() => {
+    if (!id) refreshLogin()
+    //eslint-disable-next-line
+  }, [])
+
   return (
     <Main>
       <BrowserRouter>
         <Routes>
-          <Route path='/login' element={<LogPage tag='login' />} />
-          <Route path='/signup' element={<LogPage />} />
+          {id && <Route path='/' element={<Dashboard />} />}
+          {!id && <Route path='/login' element={<LogPage tag='login' />} />}
+          {!id && <Route path='/signup' element={<LogPage />} />}
+          <Route path="*" element={<Navigate to={id ? '/' : "/login"} />} />
         </Routes>
       </BrowserRouter>
     </Main>
