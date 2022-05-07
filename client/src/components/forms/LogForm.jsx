@@ -1,8 +1,8 @@
 import { useDispatch } from 'react-redux'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
-import SubmitButton from '../atoms/SubmitButton'
-import InputText from '../molecules/InputText'
+import SubmitButton from '../buttons/SubmitButton'
+import InputText from '../input/InputText'
 import { login, signup } from '../../redux/userSlice'
 
 const LogForm = ({ tag }) => {

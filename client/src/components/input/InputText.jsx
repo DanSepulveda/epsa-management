@@ -1,6 +1,6 @@
 import { useField } from 'formik'
-import InputError from '../atoms/InputError'
-import InputLabel from '../atoms/InputLabel'
+import InputError from './InputError'
+import InputLabel from './InputLabel'
 
 const InputText = ({ label, ...props }) => {
     const [field, meta] = useField(props)

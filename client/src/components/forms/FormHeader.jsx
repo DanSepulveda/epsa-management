@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import FormLink from '../atoms/FormLink'
+import FormLink from './FormLink'
 
 const FormHeader = ({ tag }) => {
     return (

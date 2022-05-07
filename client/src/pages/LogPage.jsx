@@ -1,6 +1,6 @@
-import Box from '../components/atoms/Box'
-import FormHeader from '../components/organisms/FormHeader'
-import LogForm from '../components/organisms/LogForm'
+import Box from '../components/layout/Box'
+import FormHeader from '../components/forms/FormHeader'
+import LogForm from '../components/forms/LogForm'
 import { useSelector } from 'react-redux'
 import { userState } from '../redux/userSlice'
 

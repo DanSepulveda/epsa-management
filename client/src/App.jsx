@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { userState, loginWithToken } from './redux/userSlice'
-import Main from './components/atoms/Main'
+import Main from './components/layout/Main'
 import LogPage from './pages/LogPage'
 import Dashboard from './pages/Dashboard'
 
