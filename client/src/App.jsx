@@ -12,6 +12,7 @@ import Records from './pages/Records'
 const App = () => {
   const id = useSelector(userState)._id
   const dispatch = useDispatch()
+  const loading = useSelector(userState).loading
 
   const refreshLogin = async () => {
     await dispatch(loginWithToken())
@@ -21,6 +22,10 @@ const App = () => {
     if (!id) refreshLogin()
     //eslint-disable-next-line
   }, [])
+
+  if (loading) {
+    return
+  }
 
   return (
     <Main>

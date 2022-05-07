@@ -7,7 +7,7 @@ const AdminView = ({ children }) => {
             <PanelMenu />
             <section className='flex flex-col flex-1'>
                 <Header />
-                <div className='px-7 py-5'>
+                <div className='px-7 py-5 flex-1 flex flex-col overflow-y-scroll'>
                     {children}
                 </div>
             </section>

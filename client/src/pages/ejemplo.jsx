@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Formik, Form } from 'formik'
 import AdminView from '../components/layout/AdminView'
-import DailyRecord from '../components/forms/DailyRecord'
+import DailyRecord from '../components/forms/NewRecordForm'
 
 const Dashboard = () => {
     const [inputQty, setInputQty] = useState([1, 2, 3, 4, 5, 6])

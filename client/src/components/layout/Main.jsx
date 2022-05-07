@@ -1,8 +1,8 @@
-import React from 'react'
-
 const Main = ({ children }) => {
     return (
-        <main className='bg-rose-50 min-h-screen'>{children}</main>
+        <main className='bg-pink-200 min-h-screen min-w-screen'>
+            {children}
+        </main>
     )
 }
 
