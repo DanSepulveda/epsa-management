@@ -6,6 +6,8 @@ import { userState, loginWithToken } from './redux/userSlice'
 import Main from './components/layout/Main'
 import LogPage from './pages/LogPage'
 import Dashboard from './pages/Dashboard'
+import Reports from './pages/Reports'
+import Records from './pages/Records'
 
 const App = () => {
   const id = useSelector(userState)._id
@@ -25,6 +27,8 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           {id && <Route path='/' element={<Dashboard />} />}
+          <Route path='/reports' element={<Reports />} />
+          <Route path='/records' element={<Records />} />
           {!id && <Route path='/login' element={<LogPage tag='login' />} />}
           {!id && <Route path='/signup' element={<LogPage />} />}
           <Route path="*" element={<Navigate to={id ? '/' : "/login"} />} />

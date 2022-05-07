@@ -14,3 +14,20 @@
 html * {
     color: #444;
 }
+
+/* .custom-link:hover svg {
+    fill: #db2777;
+} */
+
+.active {
+    background-color: #fff1f2 !important;
+    color: #db2777;
+}
+
+.active:hover {
+    color: #db2777;
+}
+
+.active svg {
+    fill: #db2777;
+}
