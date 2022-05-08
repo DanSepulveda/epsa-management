@@ -1,8 +1,10 @@
-import React from 'react'
+import MonthlyReport from '../reports/MonthlyReport'
 
 const ReportsView = () => {
     return (
-        <div>Reports</div>
+        <section className='flex flex-col gap-5'>
+            <MonthlyReport />
+        </section>
     )
 }
 
