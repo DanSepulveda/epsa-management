@@ -1,45 +1,22 @@
 import React, { useState } from 'react'
-import IconButton from '../buttons/IconButton'
-import NewRecordForm from '../forms/NewRecordForm'
 import Tab from '../navigation/Tab'
 import Tabs from '../navigation/Tabs'
+import Box from '../layout/Box'
+import RecordList from './RecordList'
+import ActTemplates from './ActTemplates'
 
 const RecordsView = () => {
-    const [open, setOpen] = useState(false)
-    // <div className='bg-white shadow-md rounded flex p-2'>
-    //     <input
-    //         className='border border-pink-600'
-    //         placeholder='Buscar registro...'
-    //     />
-    // </div>
+    const [tab, setTab] = useState(1)
+
     return (
         <div className='max-w-full flex-col'>
             <Tabs>
-                <Tab>Lista</Tab>
-                <Tab>Actividades</Tab>
-                <Tab>Actividades</Tab>
-                <Tab>Actividades</Tab>
-                <Tab>Actividades</Tab>
-                <Tab>Actividades</Tab>
-                <Tab>Actividades</Tab>
-                <Tab>Actividades</Tab>
-                <Tab>Actividades</Tab>
-                <Tab>Actividades</Tab>
-                <Tab>Actividades</Tab>
-                <Tab>Actividades</Tab>
-                <Tab>Actividades</Tab>
-                <Tab>Actividades</Tab>
-                <Tab>Actividades</Tab>
-                <Tab>Actividades</Tab>
-                <Tab>Actividades</Tab>
-                <Tab>Actividades</Tab>
-                <Tab>Actividades</Tab>
+                <Tab icon='table' tab={1} actualTab={tab} setTab={setTab}>Lista</Tab>
+                <Tab icon='list' tab={2} actualTab={tab} setTab={setTab}>Plantilla act.</Tab>
             </Tabs>
-            <div className='flex gap-4 items-center justify-center mb-5'>
-                <h2 className='text-2xl'>Mayo 2022</h2>
-                <IconButton icon='plus' onClick={() => setOpen(true)}>Nuevo</IconButton>
-            </div>
-            {open && <NewRecordForm />}
+            <Box>
+                {tab === 1 ? <RecordList /> : <ActTemplates />}
+            </Box>
         </div>
     )
 }
