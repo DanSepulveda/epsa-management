@@ -12,7 +12,7 @@ import Records from './pages/Records'
 const App = () => {
   const id = useSelector(userState)._id
   const dispatch = useDispatch()
-  const loading = useSelector(userState).loading
+  const loading = useSelector(userState).tokenlog
 
   const refreshLogin = async () => {
     await dispatch(loginWithToken())

@@ -13,7 +13,9 @@ const userControllers = {
             await newUser.save()
             return res.status(200).json({ success: true, response: { email, _id: newUser._id }, message: null })
         } catch (error) {
-            return res.json({ success: false, response: null, message: error })
+            if (error.code === 'auth/email-already-in-use') error.message = 'Correo ya registrado'
+            else error.message = 'Ha ocurrido un problema. Intente más tarde'
+            return res.json({ success: false, response: null, message: error.message })
         }
     },
     login: async (req, res) => {
@@ -24,7 +26,12 @@ const userControllers = {
             const mongo_user = await User.findOne({ uid })
             return res.status(200).json({ success: true, response: { email, _id: mongo_user._id }, message: null })
         } catch (error) {
-            return res.json({ success: false, response: null, message: error })
+            if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+                error.message = 'Correo y/o clave incorrecta'
+            } else {
+                error.message = 'Ha ocurrido un problema. Intente más tarde'
+            }
+            return res.json({ success: false, response: null, message: error.message })
         }
     },
     verifyToken: async (req, res) => {

@@ -1,12 +1,14 @@
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { login, signup, userState } from '../../redux/userSlice'
+import { toast } from 'react-hot-toast'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
-import SubmitButton from '../buttons/SubmitButton'
 import InputText from '../input/InputText'
-import { login, signup } from '../../redux/userSlice'
+import SubmitButton from '../buttons/SubmitButton'
 
 const LogForm = ({ tag }) => {
     const dispatch = useDispatch()
+    const loading = useSelector(userState).loading
 
     const handleSign = async (values) => {
         try {
@@ -14,20 +16,23 @@ const LogForm = ({ tag }) => {
             const { success, message } = response.payload
             if (!success) throw new Error(message)
         } catch (error) {
-            console.log(error.message)
+            toast.error(error.message, {
+                style: {
+                    background: '#333',
+                    color: '#fff'
+                }
+            })
         }
     }
 
-    const initialValues = { email: '', password: '' }
-
     const validationSchema = Yup.object({
         email: Yup.string().email('Correo inválido').required('Campo requerido'),
-        password: Yup.string().required('Campo requerido').min(8, 'Mínimo 8 caracteres').max(16, 'Máximo 16 caracteres')
+        password: Yup.string().min(8, 'Mínimo 8 caracteres').max(16, 'Máximo 16 caracteres').required('Campo requerido')
     })
 
     return (
         <Formik
-            initialValues={initialValues}
+            initialValues={{ email: '', password: '' }}
             validationSchema={validationSchema}
             onSubmit={values => handleSign(values)}
         >
@@ -45,7 +50,9 @@ const LogForm = ({ tag }) => {
                     placeholder='Ingrese su contraseña'
                     type='password'
                 />
-                <SubmitButton>{tag === 'login' ? 'Ingresar' : 'Registrarme'}</SubmitButton>
+                <SubmitButton loading={loading}>
+                    {tag === 'login' ? 'Ingresar' : 'Registrarme'}
+                </SubmitButton>
             </Form>
         </Formik>
     )
