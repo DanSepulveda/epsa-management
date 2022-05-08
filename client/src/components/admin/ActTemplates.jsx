@@ -1,8 +1,17 @@
-import React from 'react'
+import { useState } from 'react'
+import IconButton from '../buttons/IconButton'
+import TemplateForm from '../forms/TemplateForm'
 
 const ActTemplates = () => {
+    const [open, setOpen] = useState(false)
+
     return (
-        <div>ActTemplates</div>
+        <div>
+            <IconButton icon='plus' onClick={() => setOpen(true)}>
+                Nueva plantilla
+            </IconButton>
+            {open && <TemplateForm setOpen={setOpen} />}
+        </div>
     )
 }
 
