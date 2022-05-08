@@ -8,6 +8,7 @@ const PanelMenu = () => {
                 <Link to='/'>Resumen</Link>
                 <Link to='/records'>Registros diarios</Link>
                 <Link to='/reports'>Informes</Link>
+                <Link to='/files'>Archivos</Link>
             </nav>
         </section>
     )

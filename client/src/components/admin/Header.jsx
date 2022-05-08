@@ -9,7 +9,8 @@ const Header = () => {
     const title = {
         '/': 'Resumen',
         '/records': 'Registros',
-        '/reports': 'Informes'
+        '/reports': 'Informes',
+        '/files': 'Archivos subidos'
     }
 
     return (
