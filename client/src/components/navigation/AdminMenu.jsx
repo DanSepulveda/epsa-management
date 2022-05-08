@@ -1,9 +1,9 @@
 import Link from './Link'
 
-const PanelMenu = () => {
+const AdminMenu = () => {
     return (
-        <section className='h-screen bg-gradient-to-b from-pink-900 to-pink-700 py-5 hidden sm:block'>
-            <img src='/assets/logo-epsa.png' alt='Logo Epsa' className='h-24 mx-auto mb-5' />
+        <section className='hidden sm:block h-screen bg-gradient-to-b from-pink-900 to-pink-700 py-5 shrink-0'>
+            <img src='/assets/logo-epsa.png' alt='Logo Epsa' className='h-20 mx-auto mb-5' />
             <nav className='pl-3 flex flex-col items-start'>
                 <Link to='/'>Resumen</Link>
                 <Link to='/records'>Registros diarios</Link>
@@ -14,4 +14,4 @@ const PanelMenu = () => {
     )
 }
 
-export default PanelMenu
+export default AdminMenu
