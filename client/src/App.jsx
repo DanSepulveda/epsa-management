@@ -32,7 +32,7 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           {id && <Route path='/' element={<Dashboard />} />}
-          <Route path='/reports' element={<Reports />} />
+          {id && <Route path='/reports' element={<Reports />} />}
           <Route path='/records' element={<Records />} />
           {!id && <Route path='/login' element={<LogPage tag='login' />} />}
           {!id && <Route path='/signup' element={<LogPage />} />}
