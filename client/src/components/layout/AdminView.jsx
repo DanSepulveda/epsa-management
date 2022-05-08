@@ -1,7 +1,8 @@
-import Header from "../admin/Header"
-import PanelMenu from "../navigation/PanelMenu"
+import Header from '../admin/Header'
+import PanelMenu from '../navigation/PanelMenu'
 
 const AdminView = ({ children }) => {
+
     return (
         <section className='flex h-screen'>
             <PanelMenu />

@@ -1,8 +1,11 @@
-import React from 'react'
-
+import Box from "../layout/Box"
 const ResumeView = () => {
     return (
-        <div className='bg-white'>Resume</div>
+        <div className='flex'>
+            <Box>dasdasda</Box>
+            <Box>dasdasda</Box>
+            <Box>dasdasda</Box>
+        </div>
     )
 }
 

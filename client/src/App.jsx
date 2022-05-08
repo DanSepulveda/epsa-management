@@ -33,7 +33,7 @@ const App = () => {
         <Routes>
           {id && <Route path='/' element={<Dashboard />} />}
           {id && <Route path='/reports' element={<Reports />} />}
-          <Route path='/records' element={<Records />} />
+          {id && <Route path='/records' element={<Records />} />}
           {!id && <Route path='/login' element={<LogPage tag='login' />} />}
           {!id && <Route path='/signup' element={<LogPage />} />}
           <Route path="*" element={<Navigate to={id ? '/' : "/login"} />} />

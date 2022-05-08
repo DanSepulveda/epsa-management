@@ -1,10 +1,8 @@
-import { NavLink } from "react-router-dom"
-
-import Link from "./Link"
+import Link from './Link'
 
 const PanelMenu = () => {
     return (
-        <section className='h-screen bg-gradient-to-b from-pink-700 to-pink-500 py-5'>
+        <section className='h-screen bg-gradient-to-b from-pink-900 to-pink-700 py-5 hidden sm:block'>
             <img src='/assets/logo-epsa.png' alt='Logo Epsa' className='h-24 mx-auto mb-5' />
             <nav className='pl-3 flex flex-col items-start'>
                 <Link to='/'>Resumen</Link>
