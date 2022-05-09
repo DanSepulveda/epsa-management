@@ -5,8 +5,28 @@ import OverForm from '../layout/OverForm'
 import InputText from '../input/InputText'
 import TextArea from '../input/TextArea'
 import SubmitButton from '../buttons/SubmitButton'
+import { useDispatch } from 'react-redux'
+import { createActivity } from '../../redux/activitiesSlice'
+import { toast } from 'react-hot-toast'
+import { successMessage, errorMessage } from '../../utils/messages'
 
 const TemplateForm = ({ setOpen }) => {
+    const dispatch = useDispatch()
+
+    const handleSubmit = async (values, resetForm) => {
+        try {
+            const response = await dispatch(createActivity(values))
+            if (response.payload.success) {
+                successMessage('Actividad creada')
+                resetForm()
+            } else {
+                throw new Error('Ha ocurrido un error. Intente más tarde')
+            }
+        } catch (error) {
+            errorMessage(error.message)
+        }
+    }
+
     return (
         <OverForm>
             <RiCloseCircleFill
@@ -14,13 +34,13 @@ const TemplateForm = ({ setOpen }) => {
                 onClick={() => setOpen(false)}
             />
             <Formik
-                initialValues={{ activity: '', template: '' }}
-                onSubmit={(values) => console.log(values)}
+                initialValues={{ name: '', template: '' }}
+                onSubmit={(values, { resetForm }) => handleSubmit(values, resetForm)}
             >
                 <Form>
                     <InputText
-                        name='activity'
-                        id='activity'
+                        name='name'
+                        id='name'
                         label='Nombre de la actividad'
                         placeholder='Ej: Atención de apoderado'
                     />
