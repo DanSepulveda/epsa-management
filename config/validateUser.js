@@ -8,7 +8,7 @@ module.exports = validateUser = async (req, res, next) => {
     const fb_user = auth.currentUser
     if (fb_user) {
         const mongo_user = await User.findOne({ uid: fb_user.uid })
-        req['currentUser'] = { email: mongo_user.email, _id: mongo_user._id }
+        req['currentUser'] = mongo_user
     } else {
         req['currentUser'] = null
     }

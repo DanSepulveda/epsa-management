@@ -37,7 +37,6 @@ const userControllers = {
     verifyToken: async (req, res) => {
         if (req.currentUser) {
             const { email, _id } = req.currentUser
-            // const { uid, reloadUserInfo } = user
             return res.status(200).json({ success: true, response: { email, _id }, message: null })
         } else {
             return res.json({ success: false, response: null, message: 'error' })
