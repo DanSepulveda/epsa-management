@@ -11,7 +11,6 @@ export const createActivity = createAsyncThunk(
     'createActivity',
     async (values) => {
         const response = await axios.post(`${HOST}/activities`, values)
-        console.log(response)
         return response.data
     }
 )
@@ -26,7 +25,8 @@ export const getActivities = createAsyncThunk(
 
 export const editActivity = createAsyncThunk(
     'editActivity',
-    async (id, values) => {
+    async (data) => {
+        const { values, id } = data
         const response = await axios.put(`${HOST}/activity/${id}`, values)
         return response.data
     }
@@ -54,7 +54,7 @@ export const activitiesSlice = createSlice({
             .addCase(createActivity.fulfilled, (state, action) => {
                 const { success, response } = action.payload
                 if (success) {
-                    state.activities = [...state.activities, response]
+                    state.activities = [...state.activities, response].sort((a, b) => a.name.localeCompare(b.name))
                 }
             })
             .addCase(getActivities.pending, (state) => {
@@ -63,19 +63,19 @@ export const activitiesSlice = createSlice({
             .addCase(getActivities.fulfilled, (state, action) => {
                 const { success, response } = action.payload
                 if (success) {
-                    state.activities = response
+                    state.activities = response.sort((a, b) => a.name.localeCompare(b.name))
                 }
             })
             .addCase(editActivity.fulfilled, (state, action) => {
                 const { success, response } = action.payload
                 if (success) {
-                    state.activities = [...state.activities.filter(activity => activity._id !== response._id), response]
+                    state.activities = [...state.activities.filter(activity => activity._id !== response._id), response].sort((a, b) => a.name.localeCompare(b.name))
                 }
             })
             .addCase(deleteActivity.fulfilled, (state, action) => {
                 const { success, response } = action.payload
                 if (success) {
-                    state.activities = state.activities.filter(activity => activity._id !== response)
+                    state.activities = [...state.activities.filter(activity => activity._id !== response)].sort((a, b) => a.name.localeCompare(b.name))
                 }
             })
     },

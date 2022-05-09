@@ -1,9 +1,8 @@
 import { useField, Field } from 'formik'
-import InputError from './InputError'
 import InputLabel from './InputLabel'
 
 const TextArea = ({ label, ...props }) => {
-    const [field, meta] = useField(props)
+    const [field] = useField(props)
 
     return (
         <div className='w-full mb-10 flex flex-col'>

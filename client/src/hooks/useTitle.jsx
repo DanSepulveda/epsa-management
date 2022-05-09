@@ -6,6 +6,7 @@ const useTitle = (title) => {
 
     useEffect(() => {
         document.title = `EPSA | ${title}`
+        //eslint-disable-next-line
     }, [pathname])
 }
 

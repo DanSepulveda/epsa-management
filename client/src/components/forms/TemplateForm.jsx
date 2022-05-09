@@ -1,19 +1,15 @@
 import { Formik, Form } from 'formik'
-import * as Yup from 'yup'
-import { RiCloseCircleFill } from 'react-icons/ri'
-import OverForm from '../layout/OverForm'
+import { useDispatch } from 'react-redux'
+import { createActivity, editActivity } from '../../redux/activitiesSlice'
+import { successMessage, errorMessage } from '../../utils/messages'
 import InputText from '../input/InputText'
 import TextArea from '../input/TextArea'
 import SubmitButton from '../buttons/SubmitButton'
-import { useDispatch } from 'react-redux'
-import { createActivity } from '../../redux/activitiesSlice'
-import { toast } from 'react-hot-toast'
-import { successMessage, errorMessage } from '../../utils/messages'
 
-const TemplateForm = ({ setOpen }) => {
+const TemplateForm = ({ tag, data, editable, setEditable }) => {
     const dispatch = useDispatch()
 
-    const handleSubmit = async (values, resetForm) => {
+    const create = async (values, resetForm) => {
         try {
             const response = await dispatch(createActivity(values))
             if (response.payload.success) {
@@ -27,33 +23,60 @@ const TemplateForm = ({ setOpen }) => {
         }
     }
 
+    const edit = async (values) => {
+        const id = data._id
+        try {
+            const response = await dispatch(editActivity({ values, id }))
+            if (response.payload.success) {
+                successMessage('Actividad editada')
+                setEditable(false)
+            } else {
+                throw new Error('Ha ocurrido un error. Intente más tarde')
+            }
+        } catch (error) {
+            errorMessage(error.message)
+        }
+    }
+
+    const handleSubmit = (values, resetForm) => {
+        tag === 'new' ? create(values, resetForm) : edit(values)
+    }
+
+    const initialValues = tag === 'new'
+        ? { name: '', template: '' }
+        : { name: data.name, template: data.template }
+
     return (
-        <OverForm>
-            <RiCloseCircleFill
-                className='fill-pink-700 text-4xl ml-auto mb-3 hover:fill-pink-600 cursor-pointer'
-                onClick={() => setOpen(false)}
-            />
-            <Formik
-                initialValues={{ name: '', template: '' }}
-                onSubmit={(values, { resetForm }) => handleSubmit(values, resetForm)}
-            >
-                <Form>
-                    <InputText
-                        name='name'
-                        id='name'
-                        label='Nombre de la actividad'
-                        placeholder='Ej: Atención de apoderado'
-                    />
-                    <TextArea
-                        name='template'
-                        id='template'
-                        label='Plantilla'
-                        placeholder='Se realiza atención de apoderado de la estudiante **X** de 6° básico.'
-                    />
-                    <SubmitButton>Crear</SubmitButton>
-                </Form>
-            </Formik>
-        </OverForm>
+        <Formik
+            initialValues={initialValues}
+            onSubmit={(values, { resetForm }) => handleSubmit(values, resetForm)}
+        >
+            <Form>
+                <InputText
+                    name='name'
+                    id='name'
+                    label='Nombre de la actividad'
+                    placeholder='Ej: Atención de apoderado'
+                    disabled={tag === 'edit' && !editable ? true : false}
+                />
+                <TextArea
+                    name='template'
+                    id='template'
+                    label='Plantilla'
+                    placeholder='Se realiza atención de apoderado de la estudiante **X** de 6° básico.'
+                    disabled={tag === 'edit' && !editable ? true : false}
+                />
+                {
+                    tag === 'new' || editable
+                        ? <div className='w-24 mx-auto'>
+                            <SubmitButton>
+                                {tag === 'new' ? 'Crear' : 'Editar'}
+                            </SubmitButton>
+                        </div>
+                        : null
+                }
+            </Form>
+        </Formik>
     )
 }
 

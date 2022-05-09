@@ -47,9 +47,9 @@ const activitiesControllers = {
                 { _id: req.params.id, user_id: req.currentUser._id }
             )
             if (!removed) throw new Error('Access denied')
-            res.status(200).json({ success: true, response: null })
+            res.status(200).json({ success: true, response: req.params.id })
         } catch (error) {
-            res.json({ success: false, response: req.params.id })
+            res.json({ success: false, response: null })
         }
     }
 }
