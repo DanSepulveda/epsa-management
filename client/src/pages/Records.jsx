@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import useTitle from '../hooks/useTitle'
 import AdminView from '../components/layout/AdminView'
 import Tabs from '../components/navigation/Tabs'
@@ -15,7 +15,7 @@ const Records = () => {
             <div className='max-w-full flex-col'>
                 <Tabs>
                     <Tab icon='table' tab={1} actualTab={tab} setTab={setTab}>Lista</Tab>
-                    <Tab icon='list' tab={2} actualTab={tab} setTab={setTab}>Plantilla act.</Tab>
+                    <Tab icon='list' tab={2} actualTab={tab} setTab={setTab}>Plantillas</Tab>
                 </Tabs>
                 {tab === 1 ? <RecordList /> : <ActTemplates />}
             </div>

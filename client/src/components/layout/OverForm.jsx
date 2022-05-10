@@ -6,7 +6,7 @@ const OverForm = ({ children, setOpen }) => {
         <div className='min-h-full min-w-full bg-neutral-900/80 absolute top-0 left-0 z-50 flex items-center justify-center px-2'>
             <Box>
                 <RiCloseCircleFill
-                    className='fill-pink-700 text-4xl ml-auto mb-3 hover:fill-pink-600 cursor-pointer'
+                    className='fill-pink-700 text-4xl ml-auto mb-3 hover:fill-pink-600 cursor-pointer transition-all duration-300'
                     onClick={() => setOpen(false)}
                 />
                 {children}

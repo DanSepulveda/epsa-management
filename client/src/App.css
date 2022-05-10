@@ -34,3 +34,19 @@ nav .active:hover {
         width: initial;
     }
 }
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 100px #fecdd3;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #fda4af;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #fb7185;
+}

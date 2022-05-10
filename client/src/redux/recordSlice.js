@@ -4,7 +4,10 @@ import axios from 'axios'
 const HOST = 'http://localhost:4000/api'
 
 const initialState = {
-    records: []
+    records: [],
+    loading: false,
+    fetching: false,
+    fetched: false
 }
 
 export const createRecord = createAsyncThunk(
@@ -41,7 +44,7 @@ export const deleteRecord = createAsyncThunk(
 )
 
 export const recordSlice = createSlice({
-    name: 'records',
+    name: 'record',
     initialState,
     reducers: {
 
@@ -49,22 +52,25 @@ export const recordSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(createRecord.pending, (state) => {
-                // state.loading = true
+                state.loading = true
             })
             .addCase(createRecord.fulfilled, (state, action) => {
                 const { success, response } = action.payload
                 if (success) {
-                    state.records = [...state.records, response].sort((a, b) => a.name.localeCompare(b.name))
+                    state.records = [...state.records, response].sort((a, b) => b.date.localeCompare(a.date))
                 }
+                state.loading = false
             })
             .addCase(getRecords.pending, (state) => {
-                // state.loading = true
+                state.fetching = true
             })
             .addCase(getRecords.fulfilled, (state, action) => {
                 const { success, response } = action.payload
                 if (success) {
-                    state.records = response.sort((a, b) => a.name.localeCompare(b.name))
+                    state.records = response.sort((a, b) => b.date.localeCompare(a.date))
                 }
+                state.fetched = true
+                state.fetching = false
             })
             .addCase(editRecord.fulfilled, (state, action) => {
                 const { success, response } = action.payload
@@ -81,6 +87,6 @@ export const recordSlice = createSlice({
     },
 })
 
-export const recordsState = (state) => state.records
+export const recordState = (state) => state.record
 
 export default recordSlice.reducer

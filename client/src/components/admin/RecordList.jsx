@@ -1,53 +1,50 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getActivities, activitiesState } from '../../redux/activitiesSlice'
+import { getActivities, activityState } from '../../redux/activitySlice'
+import { getRecords, recordState } from '../../redux/recordSlice'
 import IconButton from '../buttons/IconButton'
 import RecordForm from '../forms/RecordForm'
-import TemplateForm from '../forms/TemplateForm'
 import OverForm from '../layout/OverForm'
-import ActRow from './ActRow'
+import RecordRow from './RecordRow'
 
 const RecordList = () => {
-    const [open, setOpen] = useState(false)
-    const activities = useSelector(activitiesState).activities
     const dispatch = useDispatch()
+    const [open, setOpen] = useState(false)
+    const activities = useSelector(activityState).activities
+    const { records, fetching, fetched } = useSelector(recordState)
+
     useEffect(() => {
-        dispatch(getActivities())
+        if (!activities.length) dispatch(getActivities())
+        if (!records.length) dispatch(getRecords())
         //eslint-disable-next-line
     }, [])
 
+    const message = fetched && !records.length
+        ? <h1>no hay registros</h1> //revisar 
+        : fetching
+            ? <h1>buscando registros</h1> //revisar 
+            : null
+
     return (
         <div className='flex flex-col'>
-            <div className='my-5 mx-auto'>
+            <div className='mt-6 mb-9 mx-auto flex items-center'>
+                <h2 className='text-center text-2xl mr-3'>{`Registros (${records.length})`}</h2>
                 <IconButton icon='plus' onClick={() => setOpen(true)}>
-                    Nuevo registro
+                    Nuevo
                 </IconButton>
             </div>
-            {open &&
+            {message}
+            <div className='grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+                {records.map(record => <RecordRow key={record._id} record={record} />)}
+            </div>
+            {
+                open &&
                 <OverForm setOpen={setOpen}>
                     <RecordForm tag='new' data={null} editable={null} setEditable={null} />
-                </OverForm>}
+                </OverForm>
+            }
         </div>
     )
 }
 
 export default RecordList
-
-    // <div className='bg-white shadow-md rounded flex p-2'>
-    //     <input
-    //         className='border border-pink-600'
-    //         placeholder='Buscar registro...'
-    //     />
-    // </div>
-
-
-    // <div className='flex gap-4 items-center justify-center mb-5'>
-    //     <h2 className='text-2xl'>Mayo 2022</h2>
-    //     <IconButton icon='plus' onClick={() => setOpen(true)}>Nuevo</IconButton>
-    // </div>
-
-            // {open && <NewRecordForm />}
-        // <select>
-        //     <option value="">hola</option>
-        //     <option value=""><input /></option>
-        // </select>

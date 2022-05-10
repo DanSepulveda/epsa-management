@@ -1,13 +1,14 @@
-import { useField, Field, useFormikContext } from 'formik'
 import { useEffect } from 'react'
+import { useField, Field, useFormikContext } from 'formik'
+import InputError from './InputError'
 import InputLabel from './InputLabel'
 
-const TextArea = ({ label, activities, ...props }) => {
-    const [field] = useField(props)
-    const { values, touched, setFieldValue } = useFormikContext()
+const TextArea = ({ label, activities, dependent, ...props }) => {
+    const [field, meta] = useField(props)
+    const { values, setFieldValue } = useFormikContext()
 
     useEffect(() => {
-        if (values.activity !== '' && props.dependent) {
+        if (values.activity !== '' && dependent) {
             const value = activities.find(activity => activity.name.includes(values.activity))?.template || ''
             setFieldValue(props.name, value)
         }
@@ -22,7 +23,9 @@ const TextArea = ({ label, activities, ...props }) => {
                 name='template'
                 {...field}
                 {...props}
-                className='py-2 px-3 border border-neutral-300 hover:border-neutral-500 focus:outline-pink-500' />
+                className='py-2 px-3 border border-neutral-300 hover:border-neutral-500 focus:outline-pink-500'
+            />
+            <InputError meta={meta} />
         </div>
     )
 }

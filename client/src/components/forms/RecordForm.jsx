@@ -1,23 +1,18 @@
-import { Formik, Form } from 'formik'
+import useDate from '../../hooks/useDate'
 import { useDispatch, useSelector } from 'react-redux'
-import { getRecords, editRecord, createRecord, recordsState } from '../../redux/recordSlice'
+import { createRecord, editRecord } from '../../redux/recordSlice'
 import { successMessage, errorMessage } from '../../utils/messages'
+import { activityState } from '../../redux/activitySlice'
+import { Formik, Form } from 'formik'
+import * as Yup from 'yup'
 import InputText from '../input/InputText'
 import TextArea from '../input/TextArea'
 import SubmitButton from '../buttons/SubmitButton'
-import { useEffect } from 'react'
-import useDate from '../../hooks/useDate'
 
 const RecordForm = ({ tag, data, editable, setEditable }) => {
     const dispatch = useDispatch()
-    const records = useSelector(recordsState).records
     const date = useDate()
-    const activities = []
-    useEffect(() => {
-        // console.log('entro')
-        // if (!activities.length) dispatch(getActivities())
-        //eslint-disable-next-line
-    }, [])
+    const activities = useSelector(activityState).activities
 
     const create = async (values, resetForm) => {
         try {
@@ -56,10 +51,17 @@ const RecordForm = ({ tag, data, editable, setEditable }) => {
         ? { date, activity: '', description: '' }
         : { date: data.date, activity: data.activity, description: data.description }
 
+    const validationSchema = Yup.object({
+        date: Yup.date().required('Campo requerido'),
+        activity: Yup.string().required('Campo requerido'),
+        description: Yup.string().required('Campo requerido'),
+    })
+
     return (
         <Formik
             initialValues={initialValues}
-            onSubmit={(values, { resetForm }) => console.log(values)}
+            onSubmit={(values, { resetForm }) => handleSubmit(values, resetForm)}
+            validationSchema={validationSchema}
         >
             <Form>
                 <InputText
@@ -72,16 +74,16 @@ const RecordForm = ({ tag, data, editable, setEditable }) => {
                     {activities.map(activity => <option key={activity._id} value={activity.name} />)}
                 </datalist>
                 <InputText
+                    label='Nombre de la actividad'
                     name='activity'
                     id='activity'
-                    label='Nombre de la actividad'
-                    list='activityList'
                     placeholder='Puede escribir o seleccionar desde la lista'
+                    list='activityList'
                 />
                 <TextArea
+                    label='Descripción de la actividad'
                     name='description'
                     id='description'
-                    label='Descripción de la actividad'
                     placeholder='Ej: Se realiza evaluación psicométrica a la estudiante Johannis Barrios de 7° básico. '
                     disabled={tag === 'edit' && !editable ? true : false}
                     activities={activities}
@@ -97,7 +99,7 @@ const RecordForm = ({ tag, data, editable, setEditable }) => {
                         : null
                 }
             </Form>
-        </Formik >
+        </Formik>
     )
 }
 

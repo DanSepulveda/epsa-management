@@ -1,13 +1,15 @@
-import { Formik, Form } from 'formik'
-import { useDispatch } from 'react-redux'
-import { createActivity, editActivity } from '../../redux/activitiesSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { createActivity, editActivity, activityState } from '../../redux/activitySlice'
 import { successMessage, errorMessage } from '../../utils/messages'
+import { Formik, Form } from 'formik'
+import * as Yup from 'yup'
 import InputText from '../input/InputText'
 import TextArea from '../input/TextArea'
 import SubmitButton from '../buttons/SubmitButton'
 
 const TemplateForm = ({ tag, data, editable, setEditable }) => {
     const dispatch = useDispatch()
+    const loading = useSelector(activityState).loading
 
     const create = async (values, resetForm) => {
         try {
@@ -46,30 +48,37 @@ const TemplateForm = ({ tag, data, editable, setEditable }) => {
         ? { name: '', template: '' }
         : { name: data.name, template: data.template }
 
+    const validationSchema = Yup.object({
+        name: Yup.string().required('Campo requerido'),
+        template: Yup.string().required('Campo requerido')
+    })
+
     return (
         <Formik
             initialValues={initialValues}
             onSubmit={(values, { resetForm }) => handleSubmit(values, resetForm)}
+            validationSchema={validationSchema}
         >
             <Form>
                 <InputText
+                    label='Nombre de la actividad'
                     name='name'
                     id='name'
-                    label='Nombre de la actividad'
                     placeholder='Ej: Atención de apoderado'
                     disabled={tag === 'edit' && !editable ? true : false}
                 />
                 <TextArea
+                    label='Plantilla'
                     name='template'
                     id='template'
-                    label='Plantilla'
                     placeholder='Se realiza atención de apoderado de la estudiante **X** de 6° básico.'
                     disabled={tag === 'edit' && !editable ? true : false}
+                    dependent={false}
                 />
                 {
                     tag === 'new' || editable
                         ? <div className='w-24 mx-auto'>
-                            <SubmitButton>
+                            <SubmitButton loading={loading}>
                                 {tag === 'new' ? 'Crear' : 'Editar'}
                             </SubmitButton>
                         </div>

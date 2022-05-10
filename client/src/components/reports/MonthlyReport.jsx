@@ -21,7 +21,7 @@ const MonthlyReport = () => {
                         className='py-1 px-2 border border-pink-700'
                     />
                     <div className='flex gap-4'>
-                        <IconButton icon='word' onClick={() => alert(month)}>Generar reporte</IconButton>
+                        <IconButton icon='word' onClick={() => alert(month)}>Generar</IconButton>
                         <IconButton icon='download'>Descargar</IconButton>
                     </div>
                 </div>

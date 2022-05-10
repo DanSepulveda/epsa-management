@@ -4,7 +4,8 @@ import axios from 'axios'
 const HOST = 'http://localhost:4000/api'
 
 const initialState = {
-    activities: []
+    activities: [],
+    loading: false
 }
 
 export const createActivity = createAsyncThunk(
@@ -40,47 +41,55 @@ export const deleteActivity = createAsyncThunk(
     }
 )
 
-export const activitiesSlice = createSlice({
-    name: 'activities',
+export const activitySlice = createSlice({
+    name: 'activity',
     initialState,
-    reducers: {
-
-    },
+    reducers: {},
     extraReducers: (builder) => {
         builder
             .addCase(createActivity.pending, (state) => {
-                // state.loading = true
+                state.loading = true
             })
             .addCase(createActivity.fulfilled, (state, action) => {
                 const { success, response } = action.payload
                 if (success) {
                     state.activities = [...state.activities, response].sort((a, b) => a.name.localeCompare(b.name))
                 }
+                state.loading = false
             })
             .addCase(getActivities.pending, (state) => {
-                // state.loading = true
+                state.loading = true
             })
             .addCase(getActivities.fulfilled, (state, action) => {
                 const { success, response } = action.payload
                 if (success) {
                     state.activities = response.sort((a, b) => a.name.localeCompare(b.name))
                 }
+                state.loading = false
+            })
+            .addCase(editActivity.pending, (state) => {
+                state.loading = true
             })
             .addCase(editActivity.fulfilled, (state, action) => {
                 const { success, response } = action.payload
                 if (success) {
                     state.activities = [...state.activities.filter(activity => activity._id !== response._id), response].sort((a, b) => a.name.localeCompare(b.name))
                 }
+                state.loading = false
+            })
+            .addCase(deleteActivity.pending, (state) => {
+                state.loading = true
             })
             .addCase(deleteActivity.fulfilled, (state, action) => {
                 const { success, response } = action.payload
                 if (success) {
                     state.activities = [...state.activities.filter(activity => activity._id !== response)].sort((a, b) => a.name.localeCompare(b.name))
                 }
+                state.loading = false
             })
     },
 })
 
-export const activitiesState = (state) => state.activities
+export const activityState = (state) => state.activity
 
-export default activitiesSlice.reducer
+export default activitySlice.reducer
