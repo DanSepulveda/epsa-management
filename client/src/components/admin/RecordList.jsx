@@ -1,8 +1,33 @@
-import React from 'react'
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { getActivities, activitiesState } from '../../redux/activitiesSlice'
+import IconButton from '../buttons/IconButton'
+import RecordForm from '../forms/RecordForm'
+import TemplateForm from '../forms/TemplateForm'
+import OverForm from '../layout/OverForm'
+import ActRow from './ActRow'
 
 const RecordList = () => {
+    const [open, setOpen] = useState(false)
+    const activities = useSelector(activitiesState).activities
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(getActivities())
+        //eslint-disable-next-line
+    }, [])
+
     return (
-        <div>RecordList</div>
+        <div className='flex flex-col'>
+            <div className='my-5 mx-auto'>
+                <IconButton icon='plus' onClick={() => setOpen(true)}>
+                    Nuevo registro
+                </IconButton>
+            </div>
+            {open &&
+                <OverForm setOpen={setOpen}>
+                    <RecordForm tag='new' data={null} editable={null} setEditable={null} />
+                </OverForm>}
+        </div>
     )
 }
 
@@ -26,8 +51,3 @@ export default RecordList
         //     <option value="">hola</option>
         //     <option value=""><input /></option>
         // </select>
-        // <input type="text" name="example" list="exampleList" />
-        // <datalist id="exampleList">
-        //     <option value="Arriba" />
-        //     <option value="Abajo" />
-        // </datalist>

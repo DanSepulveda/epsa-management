@@ -1,13 +1,15 @@
 import AdminView from '../components/layout/AdminView'
-import ReportsView from '../components/admin/ReportsView'
 import useTitle from '../hooks/useTitle'
+import MonthlyReport from '../components/reports/MonthlyReport'
 
 const Reports = () => {
     useTitle('Reportes')
 
     return (
         <AdminView>
-            <ReportsView />
+            <section className='flex flex-col gap-5'>
+                <MonthlyReport />
+            </section>
         </AdminView>
     )
 }

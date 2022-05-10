@@ -1,8 +1,17 @@
-import { useField, Field } from 'formik'
+import { useField, Field, useFormikContext } from 'formik'
+import { useEffect } from 'react'
 import InputLabel from './InputLabel'
 
-const TextArea = ({ label, ...props }) => {
+const TextArea = ({ label, activities, ...props }) => {
     const [field] = useField(props)
+    const { values, touched, setFieldValue } = useFormikContext()
+
+    useEffect(() => {
+        if (values.activity !== '' && props.dependent) {
+            const value = activities.find(activity => activity.name.includes(values.activity))?.template || ''
+            setFieldValue(props.name, value)
+        }
+    }, [values.activity])
 
     return (
         <div className='w-full mb-10 flex flex-col'>
