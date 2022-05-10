@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { login, signup, userState } from '../../redux/userSlice'
-import { toast } from 'react-hot-toast'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import InputText from '../input/InputText'
 import SubmitButton from '../buttons/SubmitButton'
+import { errorMessage } from '../../utils/messages'
 
 const LogForm = ({ tag }) => {
     const dispatch = useDispatch()
@@ -16,12 +16,7 @@ const LogForm = ({ tag }) => {
             const { success, message } = response.payload
             if (!success) throw new Error(message)
         } catch (error) {
-            toast.error(error.message, {
-                style: {
-                    background: '#333',
-                    color: '#fff'
-                }
-            })
+            errorMessage(error.message)
         }
     }
 
