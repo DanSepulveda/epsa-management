@@ -1,13 +1,20 @@
 import { useState } from 'react'
 import Box from '../layout/Box'
 import IconButton from '../buttons/IconButton'
+import axios from 'axios'
 
 const MonthlyReport = () => {
     const [month, setMonth] = useState()
+    const HOST = 'http://localhost:4000/api'
 
     const inputHandler = (e) => {
         e.preventDefault()
         setMonth(e.target.value)
+    }
+
+    const createReport = async () => {
+        const response = await axios.post(`${HOST}/monthly-report`, { month })
+        console.log(response)
     }
 
     return (
@@ -21,7 +28,7 @@ const MonthlyReport = () => {
                         className='py-1 px-2 border border-pink-700'
                     />
                     <div className='flex gap-4'>
-                        <IconButton icon='word' onClick={() => alert(month)}>Generar</IconButton>
+                        <IconButton icon='word' onClick={createReport}>Generar</IconButton>
                         <IconButton icon='download'>Descargar</IconButton>
                     </div>
                 </div>

@@ -3,6 +3,7 @@ const validateUser = require('../config/validateUser')
 const userControllers = require('../controllers/userControllers')
 const activitiesControllers = require('../controllers/activitiesControllers')
 const recordsControllers = require('../controllers/recordsControllers')
+const reportsControllers = require('../controllers/reportsControllers')
 
 const router = express.Router()
 
@@ -31,5 +32,10 @@ router.route('/records')
 router.route('/record/:id')
     .put(validateUser, recordsControllers.editRecord)
     .delete(validateUser, recordsControllers.deleteRecord)
+
+// REPORTS
+
+router.route('/monthly-report')
+    .post(validateUser, reportsControllers.monthlyReport)
 
 module.exports = router
