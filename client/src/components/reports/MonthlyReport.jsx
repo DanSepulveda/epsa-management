@@ -2,9 +2,14 @@ import { useState } from 'react'
 import Box from '../layout/Box'
 import IconButton from '../buttons/IconButton'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
+import { successMessage } from '../../utils/messages'
+import { toast } from 'react-hot-toast'
 
 const MonthlyReport = () => {
     const [month, setMonth] = useState()
+    const [loading, setLoading] = useState(false)
+    const navigate = useNavigate()
     const HOST = 'http://localhost:4000/api'
 
     const inputHandler = (e) => {
@@ -13,8 +18,9 @@ const MonthlyReport = () => {
     }
 
     const createReport = async () => {
+        successMessage('Generando informe')
         const response = await axios.post(`${HOST}/monthly-report`, { month })
-        console.log(response)
+        if (response.data.success) window.open(response.data.response, '_blank')
     }
 
     return (
@@ -28,7 +34,9 @@ const MonthlyReport = () => {
                         className='py-1 px-2 border border-pink-700'
                     />
                     <div className='flex gap-4'>
-                        <IconButton icon='word' onClick={createReport}>Generar</IconButton>
+                        <IconButton icon='word' onClick={createReport}>
+                            Generar
+                        </IconButton>
                         <IconButton icon='download'>Descargar</IconButton>
                     </div>
                 </div>

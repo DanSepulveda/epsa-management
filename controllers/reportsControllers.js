@@ -2,6 +2,8 @@ const docx = require('docx')
 const fs = require('fs')
 const Record = require('../models/Record')
 const formatDate = require('../utils/formatDate')
+const app = require('../config/firebase')
+const { getStorage, ref, uploadBytes, getDownloadURL } = require('firebase/storage')
 
 const { Document, Table, TableRow, Paragraph, Packer, TableCell, AlignmentType, Header, ImageRun, convertMillimetersToTwip, BorderStyle } = docx
 
@@ -251,13 +253,25 @@ const reportsControllers = {
                 }
             })
 
+            const filename = `${selectedMonth}${year}.docx`
+
             Packer.toBuffer(doc).then((buffer) => {
-                fs.writeFileSync(`${selectedMonth}${year}.docx`, buffer);
-            });
+                fs.writeFileSync(filename, buffer);
+            })
 
-            res.download(`${selectedMonth}${year}.docx`)
+            const file = fs.readFileSync(`./${selectedMonth}${year}.docx`)
 
-            // res.status(200).json({ success: true, response: recordsbyDay })
+            const storage = getStorage(app)
+            const storageRef = ref(storage, `reports/${filename}`)
+
+            uploadBytes(storageRef, file).then((snapshot) => {
+                console.log('Uploaded a blob or file!')
+            })
+            const url = await getDownloadURL(storageRef)
+
+            // res.download(`./${selectedMonth}${year}.docx`)
+
+            res.status(200).json({ success: true, response: url })
         } catch (error) {
             res.json({ success: false, response: error.message })
         }
