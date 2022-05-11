@@ -21,7 +21,7 @@ const recordsControllers = {
     getRecords: async (req, res) => {
         try {
             if (!req.currentUser) throw new Error('Access denied')
-            const records = await Record.find({ user_id: req.currentUser._id })
+            const records = await Record.find({ user_id: req.currentUser._id }).sort({ date: -1 })
             res.status(200).json({ success: true, response: records })
         } catch (error) {
             res.json({ success: false, response: error.message })

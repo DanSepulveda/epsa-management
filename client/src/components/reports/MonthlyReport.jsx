@@ -7,7 +7,7 @@ import { successMessage } from '../../utils/messages'
 import { toast } from 'react-hot-toast'
 
 const MonthlyReport = () => {
-    const [month, setMonth] = useState()
+    const [month, setMonth] = useState('')
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
     const HOST = 'http://localhost:4000/api'

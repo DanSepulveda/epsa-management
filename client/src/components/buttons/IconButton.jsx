@@ -11,7 +11,7 @@ const IconButton = ({ children, icon, onClick }) => {
         <button
             onClick={onClick}
             type='button'
-            className='flex items-center gap-2 bg-pink-700 py-1 px-2 rounded text-white'
+            className='flex items-center gap-2 py-1 px-2 rounded text-white transition-all duration-300 bg-pink-600 hover:bg-pink-600/90'
         >
             {icons[icon]}
             {children}

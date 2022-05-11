@@ -2,7 +2,7 @@ import Link from './Link'
 
 const AdminMenu = () => {
     return (
-        <section className='hidden sm:block h-screen bg-gradient-to-b from-pink-900 to-pink-700 py-5 shrink-0'>
+        <section className='hidden sm:block h-screen bg-gradient-to-b from-pink-500 to-pink-400 py-5 shrink-0'>
             <img src='/assets/logo-epsa.png' alt='Logo Epsa' className='h-20 mx-auto mb-5' />
             <nav className='pl-3 flex flex-col items-start'>
                 <Link to='/'>Resumen</Link>

@@ -4,7 +4,7 @@ const FormLink = ({ to, children }) => {
     const pathname = useLocation().pathname
 
     const background = to === pathname
-        ? ' bg-pink-700 text-white pointer-events-none'
+        ? ' bg-pink-500 text-white pointer-events-none'
         : ''
 
     return (
