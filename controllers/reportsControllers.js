@@ -255,28 +255,21 @@ const reportsControllers = {
 
             const filename = `${selectedMonth}${year}.docx`
 
-            Packer.toBuffer(doc).then((buffer) => {
-                fs.writeFileSync(filename, buffer);
-            })
+            const buffer = await Packer.toBuffer(doc)
+            fs.writeFileSync(filename, buffer)
 
             const file = fs.readFileSync(`./${selectedMonth}${year}.docx`)
-
             const storage = getStorage(app)
             const storageRef = ref(storage, `reports/${filename}`)
 
-            uploadBytes(storageRef, file).then((snapshot) => {
-                console.log('Uploaded a blob or file!')
-            })
-            const url = await getDownloadURL(storageRef)
+            await uploadBytes(storageRef, file)
 
-            // res.download(`./${selectedMonth}${year}.docx`)
+            const url = await getDownloadURL(storageRef)
 
             res.status(200).json({ success: true, response: url })
         } catch (error) {
             res.json({ success: false, response: error.message })
         }
-
-
     }
 }
 

@@ -12,6 +12,7 @@ const TextArea = ({ label, activities, dependent, ...props }) => {
             const value = activities.find(activity => activity.name.includes(values.activity))?.template || ''
             setFieldValue(props.name, value)
         }
+        //eslint-disable-next-line
     }, [values.activity])
 
     return (

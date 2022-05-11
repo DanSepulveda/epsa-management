@@ -1,15 +1,13 @@
+import axios from 'axios'
 import { useState } from 'react'
+import { errorMessage, successMessage } from '../../utils/messages'
 import Box from '../layout/Box'
 import IconButton from '../buttons/IconButton'
-import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
-import { successMessage } from '../../utils/messages'
-import { toast } from 'react-hot-toast'
 
 const MonthlyReport = () => {
     const [month, setMonth] = useState('')
     const [loading, setLoading] = useState(false)
-    const navigate = useNavigate()
+
     const HOST = 'http://localhost:4000/api'
 
     const inputHandler = (e) => {
@@ -18,9 +16,16 @@ const MonthlyReport = () => {
     }
 
     const createReport = async () => {
-        successMessage('Generando informe')
-        const response = await axios.post(`${HOST}/monthly-report`, { month })
-        if (response.data.success) window.open(response.data.response, '_blank')
+        setLoading(true)
+        if (month === '') {
+            errorMessage('Debe seleccionar una fecha')
+        } else {
+            successMessage('Generando informe')
+            const response = await axios.post(`${HOST}/monthly-report`, { month })
+            if (response.data.success) window.open(response.data.response, '_blank')
+            else errorMessage('Ha ocurrido un error. Intente más tarde')
+        }
+        setLoading(false)
     }
 
     return (
@@ -33,11 +38,10 @@ const MonthlyReport = () => {
                         onChange={(e) => inputHandler(e)}
                         className='py-1 px-2 border border-pink-700'
                     />
-                    <div className='flex gap-4'>
-                        <IconButton icon='word' onClick={createReport}>
+                    <div className=''>
+                        <IconButton icon='word' onClick={createReport} loading={loading}>
                             Generar
                         </IconButton>
-                        <IconButton icon='download'>Descargar</IconButton>
                     </div>
                 </div>
             </div>

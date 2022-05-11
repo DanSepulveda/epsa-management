@@ -75,13 +75,13 @@ export const recordSlice = createSlice({
             .addCase(editRecord.fulfilled, (state, action) => {
                 const { success, response } = action.payload
                 if (success) {
-                    state.records = [...state.records.filter(activity => activity._id !== response._id), response].sort((a, b) => a.name.localeCompare(b.name))
+                    state.records = [...state.records.filter(activity => activity._id !== response._id), response].sort((a, b) => b.date.localeCompare(a.date))
                 }
             })
             .addCase(deleteRecord.fulfilled, (state, action) => {
                 const { success, response } = action.payload
                 if (success) {
-                    state.records = [...state.records.filter(activity => activity._id !== response)].sort((a, b) => a.name.localeCompare(b.name))
+                    state.records = [...state.records.filter(activity => activity._id !== response)]
                 }
             })
     },

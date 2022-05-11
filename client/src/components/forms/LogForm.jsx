@@ -25,6 +25,14 @@ const LogForm = ({ tag }) => {
         password: Yup.string().min(8, 'Mínimo 8 caracteres').max(16, 'Máximo 16 caracteres').required('Campo requerido')
     })
 
+    const buttonText = tag === 'login' && loading
+        ? 'Ingresando'
+        : tag === 'login' && !loading
+            ? 'Ingresar'
+            : loading
+                ? 'Registrando'
+                : 'Registrar'
+
     return (
         <Formik
             initialValues={{ email: '', password: '' }}
@@ -46,7 +54,7 @@ const LogForm = ({ tag }) => {
                     type='password'
                 />
                 <SubmitButton loading={loading}>
-                    {tag === 'login' ? 'Ingresar' : 'Registrarme'}
+                    {buttonText}
                 </SubmitButton>
             </Form>
         </Formik>

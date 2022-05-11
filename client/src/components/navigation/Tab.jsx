@@ -6,7 +6,7 @@ const Tab = ({ children, icon, tab, actualTab, setTab }) => {
         list: <AiOutlineUnorderedList />
     }
 
-    const className = tab === actualTab ? ' bg-slate-50 border-pink-400' : ' border-transparent'
+    const className = tab === actualTab ? ' bg-slate-50 border-pink-500' : ' border-transparent'
 
     return (
         <div

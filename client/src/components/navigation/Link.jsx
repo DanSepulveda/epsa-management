@@ -12,7 +12,7 @@ const Link = ({ to, children }) => {
     }
 
     return (
-        <NavLink to={to} className='custom-link flex items-center gap-2 pr-12 py-2 pl-4 rounded-l-full transition-all duration-300 w-full text-neutral-300 hover:text-white hover:font-normal'>
+        <NavLink to={to} className='custom-link flex items-center gap-2 pr-12 py-2 pl-4 rounded-l-full transition-all duration-300 w-full text-neutral-50 hover:text-pink-900 hover:font-normal'>
             {icons[to]}
             {children}
         </NavLink>

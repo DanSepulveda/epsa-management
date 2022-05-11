@@ -9,7 +9,7 @@ import InputText from '../input/InputText'
 import TextArea from '../input/TextArea'
 import SubmitButton from '../buttons/SubmitButton'
 
-const RecordForm = ({ tag, data, editable, setEditable }) => {
+const RecordForm = ({ tag, data }) => {
     const dispatch = useDispatch()
     const date = useDate()
     const activities = useSelector(activityState).activities
@@ -32,12 +32,8 @@ const RecordForm = ({ tag, data, editable, setEditable }) => {
         const id = data._id
         try {
             const response = await dispatch(editRecord({ values, id }))
-            if (response.payload.success) {
-                successMessage('Registro editado')
-                setEditable(false)
-            } else {
-                throw new Error('Ha ocurrido un error. Intente más tarde')
-            }
+            if (response.payload.success) successMessage('Registro editado')
+            else throw new Error('Ha ocurrido un error. Intente más tarde')
         } catch (error) {
             errorMessage(error.message)
         }
@@ -49,7 +45,7 @@ const RecordForm = ({ tag, data, editable, setEditable }) => {
 
     const initialValues = tag === 'new'
         ? { date, activity: '', description: '' }
-        : { date: data.date, activity: data.activity, description: data.description }
+        : { date: data.date.split('T')[0], activity: data.activity, description: data.description }
 
     const validationSchema = Yup.object({
         date: Yup.date().required('Campo requerido'),
@@ -85,19 +81,15 @@ const RecordForm = ({ tag, data, editable, setEditable }) => {
                     name='description'
                     id='description'
                     placeholder='Ej: Se realiza evaluación psicométrica a la estudiante Johannis Barrios de 7° básico. '
-                    disabled={tag === 'edit' && !editable ? true : false}
+                    disabled={false}
                     activities={activities}
                     dependent={true}
                 />
-                {
-                    tag === 'new' || editable
-                        ? <div className='w-24 mx-auto'>
-                            <SubmitButton>
-                                {tag === 'new' ? 'Crear' : 'Editar'}
-                            </SubmitButton>
-                        </div>
-                        : null
-                }
+                <div className='w-24 mx-auto'>
+                    <SubmitButton>
+                        {tag === 'new' ? 'Crear' : 'Editar'}
+                    </SubmitButton>
+                </div>
             </Form>
         </Formik>
     )

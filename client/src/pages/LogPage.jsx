@@ -8,7 +8,7 @@ const LogPage = ({ tag }) => {
     useTitle(title)
 
     return (
-        <section className='min-h-full min-w-full m-auto absolute flex justify-center items-center px-3'>
+        <section className='min-h-full min-w-full m-auto absolute flex justify-center items-center px-3 bg-pink-200'>
             <Box>
                 <div className='px-4 py-6'>
                     <img src='/assets/logo-epsa.png' alt='Logo EPSA' className='h-20 mx-auto mb-5' />
