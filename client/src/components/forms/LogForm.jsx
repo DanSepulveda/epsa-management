@@ -1,23 +1,33 @@
-import { useDispatch, useSelector } from 'react-redux'
-import { login, signup, userState } from '../../redux/userSlice'
-import { Formik, Form } from 'formik'
+import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { login, signup } from '../../redux/userSlice'
+import { auth } from '../../firebase.config'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
 import * as Yup from 'yup'
+import { errorMessage } from '../../utils/messages'
+import errorMessages from '../../app/errorMessages'
+import { Formik, Form } from 'formik'
 import InputText from '../input/InputText'
 import SubmitButton from '../buttons/SubmitButton'
-import { errorMessage } from '../../utils/messages'
 
 const LogForm = ({ tag }) => {
     const dispatch = useDispatch()
-    const loading = useSelector(userState).loading
+    const [loading, setLoading] = useState(false)
 
-    const handleSign = async (values) => {
+    const handleSign = async ({ email, password }) => {
+        setLoading(true)
         try {
-            const response = tag === 'login' ? await dispatch(login(values)) : await dispatch(signup(values))
-            const { success, message } = response.payload
-            if (!success) throw new Error(message)
+            const response = tag === 'login'
+                ? await signInWithEmailAndPassword(auth, email, password)
+                : await createUserWithEmailAndPassword(auth, email, password)
+
+            tag === 'login'
+                ? dispatch(login(response.user.uid))
+                : dispatch(signup({ uid: response.user.uid, email: response.user.email }))
         } catch (error) {
-            errorMessage(error.message)
+            errorMessage(errorMessages[error.code] || errorMessages.default)
         }
+        setLoading(false)
     }
 
     const validationSchema = Yup.object({

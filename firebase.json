@@ -14,7 +14,9 @@
         "source": "**",
         "destination": "/index.html"
       }
-    ],
-    "postdeploy": "npm install & npm run build"
+    ]
+  },
+  "functions": {
+    "source": "/"
   }
 }

@@ -13,7 +13,6 @@ router.route('/signup')
 
 router.route('/login')
     .post(userControllers.login)
-    .get(validateUser, userControllers.verifyToken)
 
 // ACTIVITIES
 router.route('/activities')
