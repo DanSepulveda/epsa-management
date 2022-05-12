@@ -2,17 +2,19 @@ import { BiEdit, BiTrash } from 'react-icons/bi'
 import useFormatDate from '../../hooks/useFormatDate'
 import Box from '../layout/Box'
 import Swal from 'sweetalert2'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { deleteRecord } from '../../redux/recordSlice'
 import { successMessage, errorMessage } from '../../utils/messages'
+import { userState } from '../../redux/userSlice'
 
 const RecordRow = ({ record, setTag, setId, setOpen }) => {
     const date = useFormatDate(record.date)
     const dispatch = useDispatch()
+    const token = useSelector(userState).token
 
     const deleteAct = async () => {
         try {
-            const response = await dispatch(deleteRecord(record._id))
+            const response = await dispatch(deleteRecord({ id: record._id, token }))
             if (response.payload.success) successMessage('Registro eliminado')
             else throw new Error('Ha ocurrido un error. Intente más tarde')
         } catch (error) {

@@ -29,5 +29,3 @@ admin.initializeApp({
 // const app = initializeApp(firebaseConfig)
 
 module.exports = admin
-
-// console.log(admin)

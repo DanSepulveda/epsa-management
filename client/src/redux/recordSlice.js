@@ -12,33 +12,48 @@ const initialState = {
 
 export const createRecord = createAsyncThunk(
     'createRecord',
-    async (values) => {
-        const response = await axios.post(`${HOST}/records`, values)
+    async ({ values, token }) => {
+        const response = await axios.post(`${HOST}/records`, values, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
         return response.data
     }
 )
 
 export const getRecords = createAsyncThunk(
     'getRecords',
-    async () => {
-        const response = await axios.get(`${HOST}/records`)
+    async (token) => {
+        const response = await axios.get(`${HOST}/records`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
         return response.data
     }
 )
 
 export const editRecord = createAsyncThunk(
     'editRecord',
-    async (data) => {
-        const { values, id } = data
-        const response = await axios.put(`${HOST}/record/${id}`, values)
+    async ({ values, id, token }) => {
+        const response = await axios.put(`${HOST}/record/${id}`, values, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
         return response.data
     }
 )
 
 export const deleteRecord = createAsyncThunk(
     'deleteRecord',
-    async (id) => {
-        const response = await axios.delete(`${HOST}/record/${id}`)
+    async ({ id, token }) => {
+        const response = await axios.delete(`${HOST}/record/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
         return response.data
     }
 )
@@ -72,11 +87,15 @@ export const recordSlice = createSlice({
                 state.fetched = true
                 state.fetching = false
             })
+            .addCase(editRecord.pending, (state) => {
+                state.loading = true
+            })
             .addCase(editRecord.fulfilled, (state, action) => {
                 const { success, response } = action.payload
                 if (success) {
                     state.records = [...state.records.filter(activity => activity._id !== response._id), response].sort((a, b) => b.date.localeCompare(a.date))
                 }
+                state.loading = false
             })
             .addCase(deleteRecord.fulfilled, (state, action) => {
                 const { success, response } = action.payload

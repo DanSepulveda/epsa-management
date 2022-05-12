@@ -1,6 +1,6 @@
 import useDate from '../../hooks/useDate'
 import { useDispatch, useSelector } from 'react-redux'
-import { createRecord, editRecord } from '../../redux/recordSlice'
+import { createRecord, editRecord, recordState } from '../../redux/recordSlice'
 import { successMessage, errorMessage } from '../../utils/messages'
 import { activityState } from '../../redux/activitySlice'
 import { Formik, Form } from 'formik'
@@ -8,15 +8,18 @@ import * as Yup from 'yup'
 import InputText from '../input/InputText'
 import TextArea from '../input/TextArea'
 import SubmitButton from '../buttons/SubmitButton'
+import { userState } from '../../redux/userSlice'
 
 const RecordForm = ({ tag, data }) => {
     const dispatch = useDispatch()
     const date = useDate()
     const activities = useSelector(activityState).activities
+    const token = useSelector(userState).token
+    const loading = useSelector(recordState).loading
 
     const create = async (values, resetForm) => {
         try {
-            const response = await dispatch(createRecord(values))
+            const response = await dispatch(createRecord({ values, token }))
             if (response.payload.success) {
                 successMessage('Registro creado')
                 resetForm()
@@ -31,7 +34,7 @@ const RecordForm = ({ tag, data }) => {
     const edit = async (values) => {
         const id = data._id
         try {
-            const response = await dispatch(editRecord({ values, id }))
+            const response = await dispatch(editRecord({ values, id, token }))
             if (response.payload.success) successMessage('Registro editado')
             else throw new Error('Ha ocurrido un error. Intente más tarde')
         } catch (error) {
@@ -86,7 +89,7 @@ const RecordForm = ({ tag, data }) => {
                     dependent={true}
                 />
                 <div className='w-24 mx-auto'>
-                    <SubmitButton>
+                    <SubmitButton loading={loading}>
                         {tag === 'new' ? 'Crear' : 'Editar'}
                     </SubmitButton>
                 </div>

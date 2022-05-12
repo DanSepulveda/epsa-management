@@ -2,9 +2,9 @@ const Record = require('../models/Record')
 
 const recordsControllers = {
     createRecord: async (req, res) => {
+        const user_id = req.id
         try {
-            if (!req.currentUser) throw new Error('Access denied')
-            const user_id = req.currentUser._id
+            if (!user_id) throw new Error('Access denied')
             const { date, activity, description } = req.body
             const newRecord = new Record({
                 date,
@@ -19,19 +19,21 @@ const recordsControllers = {
         }
     },
     getRecords: async (req, res) => {
+        const user_id = req.id
         try {
-            if (!req.currentUser) throw new Error('Access denied')
-            const records = await Record.find({ user_id: req.currentUser._id }).sort({ date: -1 })
+            if (!user_id) throw new Error('Access denied')
+            const records = await Record.find({ user_id }).sort({ date: -1 })
             res.status(200).json({ success: true, response: records })
         } catch (error) {
             res.json({ success: false, response: error.message })
         }
     },
     editRecord: async (req, res) => {
+        const user_id = req.id
         try {
-            if (!req.currentUser) throw new Error('Access denied')
+            if (!user_id) throw new Error('Access denied')
             const edited = await Record.findOneAndUpdate(
-                { _id: req.params.id, user_id: req.currentUser._id },
+                { _id: req.params.id, user_id },
                 { ...req.body },
                 { new: true }
             )
@@ -42,10 +44,11 @@ const recordsControllers = {
         }
     },
     deleteRecord: async (req, res) => {
+        const user_id = req.id
         try {
-            if (!req.currentUser) throw new Error('Access denied')
+            if (!user_id) throw new Error('Access denied')
             const removed = await Record.findOneAndDelete(
-                { _id: req.params.id, user_id: req.currentUser._id }
+                { _id: req.params.id, user_id }
             )
             if (!removed) throw new Error('Access denied')
             res.status(200).json({ success: true, response: req.params.id })

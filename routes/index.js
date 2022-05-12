@@ -25,12 +25,12 @@ router.route('/activity/:id')
 
 // RECORDS
 router.route('/records')
-    .post(recordsControllers.createRecord)
-    .get(recordsControllers.getRecords)
+    .post(validateUser, recordsControllers.createRecord)
+    .get(validateUser, recordsControllers.getRecords)
 
 router.route('/record/:id')
-    .put(recordsControllers.editRecord)
-    .delete(recordsControllers.deleteRecord)
+    .put(validateUser, recordsControllers.editRecord)
+    .delete(validateUser, recordsControllers.deleteRecord)
 
 // REPORTS
 

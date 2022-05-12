@@ -20,7 +20,7 @@ const RecordList = () => {
 
     useEffect(() => {
         if (!activities.length) dispatch(getActivities(token))
-        if (!records.length) dispatch(getRecords())
+        if (!records.length) dispatch(getRecords(token))
         //eslint-disable-next-line
     }, [])
 
