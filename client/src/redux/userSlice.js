@@ -52,6 +52,13 @@ export const userSlice = createSlice({
   reducers: {
     changeLog: (state) => {
       state.tokenlog = false
+    },
+    clearUserState: (state) => {
+      state._id = null
+      state.email = null
+      state.uid = null
+      state.tokenlog = false
+      state.token = null
     }
   },
   extraReducers: (builder) => {
@@ -78,7 +85,7 @@ export const userSlice = createSlice({
   },
 })
 
-export const { changeLog } = userSlice.actions
+export const { changeLog, clearUserState } = userSlice.actions
 
 export const userState = (state) => state.user
 

@@ -62,7 +62,12 @@ export const recordSlice = createSlice({
     name: 'record',
     initialState,
     reducers: {
-
+        clearRecordState: (state) => {
+            state.records = []
+            state.loading = false
+            state.fetching = false
+            state.fetched = false
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -105,6 +110,8 @@ export const recordSlice = createSlice({
             })
     },
 })
+
+export const { clearRecordState } = recordSlice.actions
 
 export const recordState = (state) => state.record
 

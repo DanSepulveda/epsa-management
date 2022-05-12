@@ -61,7 +61,12 @@ export const deleteActivity = createAsyncThunk(
 export const activitySlice = createSlice({
     name: 'activity',
     initialState,
-    reducers: {},
+    reducers: {
+        clearActivityState: (state) => {
+            state.activities = []
+            state.loading = false
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(createActivity.pending, (state) => {
@@ -106,6 +111,8 @@ export const activitySlice = createSlice({
             })
     },
 })
+
+export const { clearActivityState } = activitySlice.actions
 
 export const activityState = (state) => state.activity
 

@@ -2,13 +2,15 @@ import { NavLink } from 'react-router-dom'
 import { MdOutlineDashboard, MdOutlinePendingActions } from 'react-icons/md'
 import { BsFileEarmarkWord } from 'react-icons/bs'
 import { RiFileCopy2Line } from 'react-icons/ri'
+import { CgProfile } from 'react-icons/cg'
 
 const Link = ({ to, children }) => {
     const icons = {
         '/': <MdOutlineDashboard className='fill-white transition-all duration-300' />,
         '/records': <MdOutlinePendingActions className='fill-white transition-all duration-300' />,
         '/reports': <BsFileEarmarkWord className='fill-white transition-all duration-300' />,
-        '/files': <RiFileCopy2Line className='fill-white transition-all duration-300' />
+        '/files': <RiFileCopy2Line className='fill-white transition-all duration-300' />,
+        '/profile': <CgProfile className='fill-white transition-all duration-300' />
     }
 
     return (

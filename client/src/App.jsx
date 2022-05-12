@@ -10,6 +10,7 @@ import Dashboard from './pages/Dashboard'
 import Reports from './pages/Reports'
 import Records from './pages/Records'
 import Archive from './pages/Archive'
+import Profile from './pages/Profile'
 
 const App = () => {
   const { _id, tokenlog } = useSelector(userState)
@@ -31,6 +32,7 @@ const App = () => {
           {_id && <Route path='/reports' element={<Reports />} />}
           {_id && <Route path='/records' element={<Records />} />}
           {_id && <Route path='/files' element={<Archive />} />}
+          {_id && <Route path='/profile' element={<Profile />} />}
           {!_id && <Route path='/login' element={<LogPage tag='login' />} />}
           {!_id && <Route path='/signup' element={<LogPage />} />}
           <Route path='*' element={<Navigate to={_id ? '/' : '/login'} />} />
