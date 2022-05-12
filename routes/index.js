@@ -9,32 +9,32 @@ const router = express.Router()
 
 // USER CONTROLLERS
 router.route('/signup')
-    .post(userControllers.createUser)
+    .get(validateUser, userControllers.createUser)
 
 router.route('/login')
-    .post(userControllers.login)
+    .get(validateUser, userControllers.login)
 
 // ACTIVITIES
 router.route('/activities')
-    .post(validateUser, activitiesControllers.createActivity)
-    .get(validateUser, activitiesControllers.getActivities)
+    .post(activitiesControllers.createActivity)
+    .get(activitiesControllers.getActivities)
 
 router.route('/activity/:id')
-    .put(validateUser, activitiesControllers.editActivity)
-    .delete(validateUser, activitiesControllers.deleteActivity)
+    .put(activitiesControllers.editActivity)
+    .delete(activitiesControllers.deleteActivity)
 
 // RECORDS
 router.route('/records')
-    .post(validateUser, recordsControllers.createRecord)
-    .get(validateUser, recordsControllers.getRecords)
+    .post(recordsControllers.createRecord)
+    .get(recordsControllers.getRecords)
 
 router.route('/record/:id')
-    .put(validateUser, recordsControllers.editRecord)
-    .delete(validateUser, recordsControllers.deleteRecord)
+    .put(recordsControllers.editRecord)
+    .delete(recordsControllers.deleteRecord)
 
 // REPORTS
 
 router.route('/monthly-report')
-    .post(validateUser, reportsControllers.monthlyReport)
+    .post(reportsControllers.monthlyReport)
 
 module.exports = router

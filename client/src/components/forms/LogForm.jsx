@@ -21,9 +21,11 @@ const LogForm = ({ tag }) => {
                 ? await signInWithEmailAndPassword(auth, email, password)
                 : await createUserWithEmailAndPassword(auth, email, password)
 
+            const token = response.user.accessToken
+
             tag === 'login'
-                ? dispatch(login(response.user.uid))
-                : dispatch(signup({ uid: response.user.uid, email: response.user.email }))
+                ? dispatch(login(token))
+                : dispatch(signup(token))
         } catch (error) {
             errorMessage(errorMessages[error.code] || errorMessages.default)
         }

@@ -11,28 +11,38 @@ const initialState = {
   email: null,
   uid: null,
   tokenlog: true,
+  token: null,
+
 }
 
 export const getUser = () => {
   onAuthStateChanged(auth, user => {
-    if (user) store.dispatch(login(user.uid))
-    else console.log(store.dispatch(changeLog()))
+    if (user) store.dispatch(login(user.accessToken))
+    else store.dispatch(changeLog())
   })
 }
 
 export const login = createAsyncThunk(
   'login',
-  async (uid) => {
-    const response = await axios.post(`${HOST}/login`, { uid })
-    return response.data
+  async (token) => {
+    const response = await axios.get(`${HOST}/login`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    return { token, success: response.data.success, response: response.data.response }
   }
 )
 
 export const signup = createAsyncThunk(
   'signup',
-  async (values) => {
-    const response = await axios.post(`${HOST}/signup`, values)
-    return response.data
+  async (token) => {
+    const response = await axios.get(`${HOST}/signup`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    return { token, success: response.data.success, response: response.data.response }
   }
 )
 
@@ -47,20 +57,22 @@ export const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(login.fulfilled, (state, action) => {
-        const { success, response } = action.payload
+        const { success, response, token } = action.payload
         if (success) {
           state._id = response._id
           state.uid = response.uid
           state.email = response.email
+          state.token = token
         }
         state.tokenlog = false
       })
       .addCase(signup.fulfilled, (state, action) => {
-        const { success, response } = action.payload
+        const { success, response, token } = action.payload
         if (success) {
           state._id = response._id
           state.email = response.email
           state.uid = response.uid
+          state.token = token
         }
       })
   },

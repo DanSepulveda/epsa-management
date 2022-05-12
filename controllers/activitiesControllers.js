@@ -19,7 +19,8 @@ const activitiesControllers = {
     },
     getActivities: async (req, res) => {
         try {
-            if (!req.currentUser) throw new Error('Access denied')
+            console.log('llego')
+            // if (!req.currentUser) throw new Error('Access denied')
             const activities = await Activity.find({ user_id: req.currentUser._id })
             res.status(200).json({ success: true, response: activities })
         } catch (error) {

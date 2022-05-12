@@ -1,16 +1,19 @@
-const app = require('./firebase')
-const { getAuth } = require('firebase/auth')
-const User = require('../models/User')
-
-const auth = getAuth(app)
+const admin = require('./firebase')
 
 module.exports = validateUser = async (req, res, next) => {
-    const fb_user = auth.currentUser
-    if (fb_user) {
-        const mongo_user = await User.findOne({ uid: fb_user.uid })
-        req['currentUser'] = mongo_user
-    } else {
-        req['currentUser'] = null
+    try {
+        if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
+            req.authToken = req.headers.authorization.split(' ')[1];
+        } else {
+            req.authToken = null;
+        }
+
+        const { authToken } = req
+        const response = await admin.auth().verifyIdToken(authToken)
+        req.uid = response.uid
+        req.email = response.email
+        next()
+    } catch (error) {
+        res.json({ success: false, response: 'Access denied' })
     }
-    next()
 }

@@ -2,8 +2,8 @@ const docx = require('docx')
 const fs = require('fs')
 const Record = require('../models/Record')
 const formatDate = require('../utils/formatDate')
-const app = require('../config/firebase')
-const { getStorage, ref, uploadBytes, getDownloadURL } = require('firebase/storage')
+// const app = require('../config/firebase.js')
+// const { getStorage, ref, uploadBytes, getDownloadURL } = require('firebase/storage')
 
 const { Document, Table, TableRow, Paragraph, Packer, TableCell, AlignmentType, Header, ImageRun, convertMillimetersToTwip, BorderStyle } = docx
 
