@@ -1,9 +1,11 @@
 const docx = require('docx')
+const path = require('path')
 const fs = require('fs')
+const os = require('os')
 const Record = require('../models/Record')
 const formatDate = require('../utils/formatDate')
-// const app = require('../config/firebase.js')
-// const { getStorage, ref, uploadBytes, getDownloadURL } = require('firebase/storage')
+const admin = require('../config/firebase.js')
+const { getStorage, ref, uploadBytes, getDownloadURL } = require('firebase/storage')
 
 const { Document, Table, TableRow, Paragraph, Packer, TableCell, AlignmentType, Header, ImageRun, convertMillimetersToTwip, BorderStyle } = docx
 
@@ -13,12 +15,14 @@ const reportsControllers = {
         const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre',]
         const selectedMonth = months[month.split('-')[1] - 1]
         const year = month.split('-')[0]
+        const user_id = req.id
+        const uid = req.uid
 
         try {
-            if (!req.currentUser) throw new Error('Access denied')
+            if (!user_id) throw new Error('Access denied')
 
             const recordsbyDay = await Record.aggregate([
-                { $match: { user_id: req.currentUser._id } },
+                { $match: { user_id } },
                 {
                     $group: {
                         _id: '$date', records: { $push: { activity: '$activity', description: '$description' } }
@@ -254,19 +258,22 @@ const reportsControllers = {
             })
 
             const filename = `${selectedMonth}${year}.docx`
+            const tempPath = path.join(os.tmpdir(), filename)
 
             const buffer = await Packer.toBuffer(doc)
-            fs.writeFileSync(filename, buffer)
+            fs.writeFileSync(tempPath, buffer)
 
-            const file = fs.readFileSync(`./${selectedMonth}${year}.docx`)
-            const storage = getStorage(app)
-            const storageRef = ref(storage, `reports/${filename}`)
+            // FIREBASE HOSTING
+            const bucket = await admin.storage().bucket("panel-epsa.appspot.com")
+            const destination = `users/${uid}/monthly-reports/${filename}`
 
-            await uploadBytes(storageRef, file)
+            const file = await bucket.upload(tempPath, {
+                destination
+            })
 
-            const url = await getDownloadURL(storageRef)
+            const ref = file[0].metadata.name
 
-            res.status(200).json({ success: true, response: url })
+            res.status(200).json({ success: true, response: ref })
         } catch (error) {
             res.json({ success: false, response: error.message })
         }

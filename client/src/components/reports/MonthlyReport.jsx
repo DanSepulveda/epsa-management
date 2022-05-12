@@ -1,12 +1,17 @@
 import axios from 'axios'
 import { useState } from 'react'
 import { errorMessage, successMessage } from '../../utils/messages'
+import { useSelector } from 'react-redux'
+import { userState } from '../../redux/userSlice'
 import Box from '../layout/Box'
 import IconButton from '../buttons/IconButton'
+import { storage } from '../../firebase.config'
+import { ref, getDownloadURL } from 'firebase/storage'
 
 const MonthlyReport = () => {
     const [month, setMonth] = useState('')
     const [loading, setLoading] = useState(false)
+    const token = useSelector(userState).token
 
     const HOST = 'http://localhost:4000/api'
 
@@ -21,9 +26,21 @@ const MonthlyReport = () => {
             errorMessage('Debe seleccionar una fecha')
         } else {
             successMessage('Generando informe')
-            const response = await axios.post(`${HOST}/monthly-report`, { month })
-            if (response.data.success) window.open(response.data.response, '_blank')
-            else errorMessage('Ha ocurrido un error. Intente más tarde')
+            const response = await axios.post(`${HOST}/monthly-report`, { month }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+
+            if (response.data.success) {
+                getDownloadURL(ref(storage, response.data.response)).then((url) => {
+                    window.open(url, '_blank')
+                })
+            } else {
+                errorMessage('Ha ocurrido un error. Intente más tarde')
+            }
+            // if (response.data.success) window.open(response.data.response, '_blank')
+            // else errorMessage('Ha ocurrido un error. Intente más tarde')
         }
         setLoading(false)
     }

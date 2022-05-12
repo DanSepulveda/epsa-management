@@ -35,6 +35,6 @@ router.route('/record/:id')
 // REPORTS
 
 router.route('/monthly-report')
-    .post(reportsControllers.monthlyReport)
+    .post(validateUser, reportsControllers.monthlyReport)
 
 module.exports = router
