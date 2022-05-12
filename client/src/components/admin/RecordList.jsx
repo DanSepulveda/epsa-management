@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getActivities, activityState } from '../../redux/activitySlice'
 import { getRecords, recordState } from '../../redux/recordSlice'
+import { userState } from '../../redux/userSlice'
 import IconButton from '../buttons/IconButton'
 import RecordForm from '../forms/RecordForm'
 import InfoBox from '../InfoBox'
@@ -14,10 +15,11 @@ const RecordList = () => {
     const [tag, setTag] = useState('new')
     const [id, setId] = useState(null)
     const activities = useSelector(activityState).activities
+    const token = useSelector(userState).token
     const { records, fetching, fetched } = useSelector(recordState)
 
     useEffect(() => {
-        if (!activities.length) dispatch(getActivities())
+        if (!activities.length) dispatch(getActivities(token))
         if (!records.length) dispatch(getRecords())
         //eslint-disable-next-line
     }, [])

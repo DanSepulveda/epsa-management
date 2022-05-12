@@ -65,6 +65,7 @@ export const userSlice = createSlice({
           state.token = token
         }
         state.tokenlog = false
+        console.log(token)
       })
       .addCase(signup.fulfilled, (state, action) => {
         const { success, response, token } = action.payload

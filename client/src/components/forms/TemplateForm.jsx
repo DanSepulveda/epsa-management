@@ -6,14 +6,16 @@ import * as Yup from 'yup'
 import InputText from '../input/InputText'
 import TextArea from '../input/TextArea'
 import SubmitButton from '../buttons/SubmitButton'
+import { userState } from '../../redux/userSlice'
 
 const TemplateForm = ({ tag, data, editable, setEditable }) => {
     const dispatch = useDispatch()
     const loading = useSelector(activityState).loading
+    const token = useSelector(userState).token
 
     const create = async (values, resetForm) => {
         try {
-            const response = await dispatch(createActivity(values))
+            const response = await dispatch(createActivity({ values, token }))
             if (response.payload.success) {
                 successMessage('Actividad creada')
                 resetForm()
@@ -28,7 +30,7 @@ const TemplateForm = ({ tag, data, editable, setEditable }) => {
     const edit = async (values) => {
         const id = data._id
         try {
-            const response = await dispatch(editActivity({ values, id }))
+            const response = await dispatch(editActivity({ values, id, token }))
             if (response.payload.success) {
                 successMessage('Actividad editada')
                 setEditable(false)

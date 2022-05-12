@@ -10,16 +10,24 @@ const initialState = {
 
 export const createActivity = createAsyncThunk(
     'createActivity',
-    async (values) => {
-        const response = await axios.post(`${HOST}/activities`, values)
+    async ({ values, token }) => {
+        const response = await axios.post(`${HOST}/activities`, values, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
         return response.data
     }
 )
 
 export const getActivities = createAsyncThunk(
     'getActivities',
-    async () => {
-        const response = await axios.get(`${HOST}/activities`)
+    async (token) => {
+        const response = await axios.get(`${HOST}/activities`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
         return response.data
     }
 )
@@ -27,16 +35,25 @@ export const getActivities = createAsyncThunk(
 export const editActivity = createAsyncThunk(
     'editActivity',
     async (data) => {
-        const { values, id } = data
-        const response = await axios.put(`${HOST}/activity/${id}`, values)
+        const { values, id, token } = data
+        const response = await axios.put(`${HOST}/activity/${id}`, values, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
         return response.data
     }
 )
 
 export const deleteActivity = createAsyncThunk(
     'deleteActivity',
-    async (id) => {
-        const response = await axios.delete(`${HOST}/activity/${id}`)
+    async (data) => {
+        const { id, token } = data
+        const response = await axios.delete(`${HOST}/activity/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
         return response.data
     }
 )

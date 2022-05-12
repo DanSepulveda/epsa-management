@@ -1,19 +1,21 @@
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { BiEdit, BiTrash } from 'react-icons/bi'
 import { deleteActivity } from '../../redux/activitySlice'
 import { successMessage, errorMessage } from '../../utils/messages'
 import Swal from 'sweetalert2'
 import TemplateForm from '../forms/TemplateForm'
 import Box from '../layout/Box'
+import { userState } from '../../redux/userSlice'
 
 const ActRow = ({ activity }) => {
     const [editable, setEditable] = useState(false)
     const dispatch = useDispatch()
+    const token = useSelector(userState).token
 
     const deleteAct = async () => {
         try {
-            const response = await dispatch(deleteActivity(activity._id))
+            const response = await dispatch(deleteActivity({ id: activity._id, token }))
             if (response.payload.success) successMessage('Actividad eliminada')
             else throw new Error('Ha ocurrido un error. Intente más tarde')
         } catch (error) {

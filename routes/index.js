@@ -16,12 +16,12 @@ router.route('/login')
 
 // ACTIVITIES
 router.route('/activities')
-    .post(activitiesControllers.createActivity)
-    .get(activitiesControllers.getActivities)
+    .post(validateUser, activitiesControllers.createActivity)
+    .get(validateUser, activitiesControllers.getActivities)
 
 router.route('/activity/:id')
-    .put(activitiesControllers.editActivity)
-    .delete(activitiesControllers.deleteActivity)
+    .put(validateUser, activitiesControllers.editActivity)
+    .delete(validateUser, activitiesControllers.deleteActivity)
 
 // RECORDS
 router.route('/records')
