@@ -6,7 +6,7 @@ const Archive = () => {
 
     return (
         <AdminView>
-            <section>ArchiveView</section>
+            <section>Próximamente</section>
         </AdminView>
     )
 }

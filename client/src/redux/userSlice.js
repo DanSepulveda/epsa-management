@@ -12,7 +12,10 @@ const initialState = {
   uid: null,
   tokenlog: true,
   token: null,
-
+  fullname: '',
+  username: '',
+  position: '',
+  signature: ''
 }
 
 export const getUser = () => {
@@ -30,6 +33,7 @@ export const login = createAsyncThunk(
         Authorization: `Bearer ${token}`
       }
     })
+    console.log(response)
     return { token, success: response.data.success, response: response.data.response }
   }
 )
@@ -38,6 +42,18 @@ export const signup = createAsyncThunk(
   'signup',
   async (token) => {
     const response = await axios.get(`${HOST}/signup`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    return { token, success: response.data.success, response: response.data.response }
+  }
+)
+
+export const editUser = createAsyncThunk(
+  'editUser',
+  async ({ values, token }) => {
+    const response = await axios.put(`${HOST}/user`, values, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -69,6 +85,10 @@ export const userSlice = createSlice({
           state._id = response._id
           state.uid = response.uid
           state.email = response.email
+          state.fullname = response.fullname
+          state.username = response.username
+          state.position = response.position
+          state.signature = response.signature
           state.token = token
         }
         state.tokenlog = false
@@ -80,6 +100,16 @@ export const userSlice = createSlice({
           state.email = response.email
           state.uid = response.uid
           state.token = token
+        }
+      })
+      .addCase(editUser.fulfilled, (state, action) => {
+        const { success, response, token } = action.payload
+        if (success) {
+          state.email = response.email
+          state.fullname = response.fullname
+          state.username = response.username
+          state.position = response.position
+          state.signature = response.signature
         }
       })
   },

@@ -3,9 +3,9 @@ const path = require('path')
 const fs = require('fs')
 const os = require('os')
 const Record = require('../models/Record')
+const User = require('../models/User')
 const formatDate = require('../utils/formatDate')
 const admin = require('../config/firebase.js')
-const { getStorage, ref, uploadBytes, getDownloadURL } = require('firebase/storage')
 
 const { Document, Table, TableRow, Paragraph, Packer, TableCell, AlignmentType, Header, ImageRun, convertMillimetersToTwip, BorderStyle } = docx
 
@@ -20,6 +20,9 @@ const reportsControllers = {
 
         try {
             if (!user_id) throw new Error('Access denied')
+
+            const user = await User.findOne({ uid })
+            const { fullname, position, signature } = user
 
             const recordsbyDay = await Record.aggregate([
                 { $match: { user_id } },
@@ -149,13 +152,13 @@ const reportsControllers = {
                     new TableRow({
                         children: [
                             tableCell('Nombre:', 37, 'bold', 'left'),
-                            tableCell('Loreto Aybar Valencia', 63, 'normal', 'left')
+                            tableCell(fullname, 63, 'normal', 'left')
                         ],
                     }),
                     new TableRow({
                         children: [
                             tableCell('Función:', 37, 'bold', 'left'),
-                            tableCell('Psicóloga', 63, 'normal', 'left')
+                            tableCell(position, 63, 'normal', 'left')
                         ]
                     }),
                     new TableRow({

@@ -13,9 +13,11 @@ module.exports = validateUser = async (req, res, next) => {
         const response = await admin.auth().verifyIdToken(authToken)
         const user = await User.findOne({ uid: response.uid })
 
+        if (user) {
+            req.id = user._id
+        }
         req.uid = response.uid
         req.email = response.email
-        req.id = user._id
         next()
     } catch (error) {
         res.json({ success: false, response: 'Access denied' })

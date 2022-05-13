@@ -4,16 +4,18 @@ import { userState, clearUserState } from '../../redux/userSlice'
 import { clearActivityState } from '../../redux/activitySlice'
 import { clearRecordState } from '../../redux/recordSlice'
 import { useState } from 'react'
-import Link from '../navigation/Link'
 import { signOut } from 'firebase/auth'
 import { auth } from '../../firebase.config'
 import { HiMenu } from 'react-icons/hi'
+import { NavLink } from 'react-router-dom'
+import MobileMenu from '../navigation/MobileMenu'
 
 const Header = () => {
     const path = useLocation().pathname
-    const email = useSelector(userState).email
     const [open, setOpen] = useState(false)
+    const [openNav, setOpenNav] = useState(false)
     const dispatch = useDispatch()
+    const username = useSelector(userState).username
 
     const title = {
         '/': 'Resumen',
@@ -33,23 +35,33 @@ const Header = () => {
     return (
         <div className='bg-white shadow-md px-3 sm:px-7 py-2 flex justify-between items-center max-w-full'>
             <div className='flex gap-3'>
-                <HiMenu className='text-3xl fill-pink-700 bg md:hidden' />
+                <HiMenu
+                    className='text-3xl fill-pink-700 bg sm:hidden'
+                    onClick={() => setOpenNav(true)}
+                />
                 <h1 className='text-lg font-bold text-rose-700'>{title[path]}</h1>
             </div>
             <div className='flex gap-3 items-center'>
-                <p>{`Bienvenido ${email}`}</p>
-                <div
-                    className='bg-pink-700 rounded-full cursor-pointer'
-                    style={{ 'width': '40px', 'height': '40px' }}
+                <p className='hidden md:block text-pink-700 font-medium'>{`Bienvenid@ ${username}`}</p>
+                <img
+                    src='/assets/miney.png'
                     onClick={() => setOpen(!open)}
-                >
-                </div>
+                    className='cursor-pointer h-10'
+                />
                 {
                     open &&
-                    <div className='absolute top-14 right-7 bg-pink-600 rounded-md '>
-                        <Link to='/profile'>Editar perfil</Link>
-                        <p className='text-center cursor-pointer' onClick={logout}>Cerrar sessión</p>
+                    <div className='absolute top-14 right-3 sm:right-7 rounded-md bg-pink-500 flex flex-col items-center py-4 px-5'>
+                        <NavLink to='/profile' className='text-lg text-white hover:text-pink-900 transition-all duration-300'>Editar perfil</NavLink>
+                        <p
+                            className='cursor-pointer text-lg text-white hover:text-pink-900 transition-all duration-300'
+                            onClick={logout}
+                        >
+                            Cerrar sessión
+                        </p>
                     </div>
+                }
+                {
+                    openNav && <MobileMenu setOpenNav={setOpenNav} />
                 }
             </div>
         </div>

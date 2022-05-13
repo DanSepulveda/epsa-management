@@ -33,14 +33,12 @@ const MonthlyReport = () => {
             })
 
             if (response.data.success) {
-                getDownloadURL(ref(storage, response.data.response)).then((url) => {
+                await getDownloadURL(ref(storage, response.data.response)).then((url) => {
                     window.open(url, '_blank')
                 })
             } else {
                 errorMessage('Ha ocurrido un error. Intente más tarde')
             }
-            // if (response.data.success) window.open(response.data.response, '_blank')
-            // else errorMessage('Ha ocurrido un error. Intente más tarde')
         }
         setLoading(false)
     }

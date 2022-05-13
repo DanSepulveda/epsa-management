@@ -24,8 +24,8 @@ const LogForm = ({ tag }) => {
             const token = response.user.accessToken
 
             tag === 'login'
-                ? dispatch(login(token))
-                : dispatch(signup(token))
+                ? await dispatch(login(token))
+                : await dispatch(signup(token))
         } catch (error) {
             errorMessage(errorMessages[error.code] || errorMessages.default)
         }

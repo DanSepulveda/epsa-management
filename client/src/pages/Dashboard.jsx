@@ -8,9 +8,7 @@ const Dashboard = () => {
     return (
         <AdminView>
             <div className='flex'>
-                <Box>dasdasda</Box>
-                <Box>dasdasda</Box>
-                <Box>dasdasda</Box>
+                Próximamente
             </div>
         </AdminView>
     )

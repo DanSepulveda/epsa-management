@@ -14,6 +14,9 @@ router.route('/signup')
 router.route('/login')
     .get(validateUser, userControllers.login)
 
+router.route('/user')
+    .put(validateUser, userControllers.editUser)
+
 // ACTIVITIES
 router.route('/activities')
     .post(validateUser, activitiesControllers.createActivity)
