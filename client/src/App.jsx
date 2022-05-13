@@ -11,6 +11,7 @@ import Reports from './pages/Reports'
 import Records from './pages/Records'
 import Archive from './pages/Archive'
 import Profile from './pages/Profile'
+import Loader from './components/Loader'
 
 const App = () => {
   const { _id, tokenlog } = useSelector(userState)
@@ -21,7 +22,7 @@ const App = () => {
   }, [])
 
   if (tokenlog) {
-    return <h1>cargando</h1>
+    return <Loader />
   }
 
   return (

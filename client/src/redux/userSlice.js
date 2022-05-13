@@ -103,7 +103,7 @@ export const userSlice = createSlice({
         }
       })
       .addCase(editUser.fulfilled, (state, action) => {
-        const { success, response, token } = action.payload
+        const { success, response } = action.payload
         if (success) {
           state.email = response.email
           state.fullname = response.fullname

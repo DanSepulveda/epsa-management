@@ -42,9 +42,10 @@ const Header = () => {
                 <h1 className='text-lg font-bold text-rose-700'>{title[path]}</h1>
             </div>
             <div className='flex gap-3 items-center'>
-                <p className='hidden md:block text-pink-700 font-medium'>{`Bienvenid@ ${username}`}</p>
+                <p className='hidden md:block text-pink-700 font-medium'><span className='text-slate-700'>Hola </span>{username}</p>
                 <img
-                    src='/assets/miney.png'
+                    src='/assets/minnie.png'
+                    alt='Minnie'
                     onClick={() => setOpen(!open)}
                     className='cursor-pointer h-10'
                 />

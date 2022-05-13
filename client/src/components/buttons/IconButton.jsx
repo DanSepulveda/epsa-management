@@ -1,10 +1,11 @@
-import { BsFileEarmarkWord, BsDownload, BsPlusLg } from 'react-icons/bs'
+import { BsFileEarmarkWord, BsDownload, BsPlusLg, BsImage } from 'react-icons/bs'
 
 const IconButton = ({ children, icon, onClick, loading = false }) => {
     const icons = {
         word: <BsFileEarmarkWord className='fill-white' />,
         download: <BsDownload className='fill-white' />,
-        plus: <BsPlusLg className='fill-white' />
+        plus: <BsPlusLg className='fill-white' />,
+        image: <BsImage className='fill-white' />
     }
 
     return (

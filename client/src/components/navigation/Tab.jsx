@@ -1,9 +1,12 @@
-import { AiOutlineTable, AiOutlineUnorderedList } from 'react-icons/ai'
+import { AiOutlineTable, AiOutlineUnorderedList, AiOutlineProfile } from 'react-icons/ai'
+import { FaSignature } from 'react-icons/fa'
 
 const Tab = ({ children, icon, tab, actualTab, setTab }) => {
     const icons = {
         table: <AiOutlineTable />,
-        list: <AiOutlineUnorderedList />
+        list: <AiOutlineUnorderedList />,
+        signature: <FaSignature />,
+        basics: <AiOutlineProfile />
     }
 
     const className = tab === actualTab ? ' bg-slate-50 border-pink-500' : ' border-transparent'

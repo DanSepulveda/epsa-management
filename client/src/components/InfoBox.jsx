@@ -3,7 +3,7 @@ import Box from './layout/Box'
 const InfoBox = ({ children, searching = false }) => {
     const source = searching
         ? '/assets/looking-mickey.png'
-        : '/assets/sad-mickey.png'
+        : '/assets/sad-minnie.png'
 
     return (
         <div className='flex justify-center'>
