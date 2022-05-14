@@ -11,7 +11,7 @@ const { Document, Table, TableRow, Paragraph, Packer, TableCell, AlignmentType, 
 
 const reportsControllers = {
     monthlyReport: async (req, res) => {
-        const { month } = req.body
+        const { month, data } = req.body
         const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre',]
         const selectedMonth = months[month.split('-')[1] - 1]
         const year = month.split('-')[0]
@@ -22,7 +22,12 @@ const reportsControllers = {
             if (!user_id) throw new Error('Access denied')
 
             const user = await User.findOne({ uid })
-            const { fullname, position, signature } = user
+            const { fullname, position } = user
+
+            const buf = Buffer.from(data, 'base64')
+            const imageName = 'sign.png'
+            const imagePath = path.join(os.tmpdir(), imageName)
+            fs.writeFileSync(imagePath, buf)
 
             const recordsbyDay = await Record.aggregate([
                 { $match: { user_id } },
@@ -99,6 +104,19 @@ const reportsControllers = {
                     height: 83,
                     width: 69
                 }
+            })
+
+            const signImage = new ImageRun({
+                data: fs.readFileSync(imagePath),
+                transformation: {
+                    height: 150,
+                    width: 150
+                }
+            })
+
+            const footer = new Paragraph({
+                children: [signImage],
+                alignment: AlignmentType.CENTER
             })
 
             const headerTable = new Table({
@@ -234,7 +252,17 @@ const reportsControllers = {
                         br(),
                         paragraph('Detalle de actividades realizadas:'),
                         br(),
-                        mainTable
+                        mainTable,
+                        br(),
+                        br(),
+                        br(),
+                        footer,
+                        br(),
+                        new Paragraph({
+                            text: 'Firma Profesional',
+                            alignment: AlignmentType.CENTER,
+                            style: 'normalPara'
+                        })
                     ]
                 }],
                 styles: {
