@@ -11,7 +11,7 @@ import { ref, getDownloadURL } from 'firebase/storage'
 const MonthlyReport = () => {
     const [month, setMonth] = useState('')
     const [loading, setLoading] = useState(false)
-    const token = useSelector(userState).token
+    const { token, signature } = useSelector(userState)
 
     const HOST = 'http://localhost:4000/api'
 
@@ -20,13 +20,31 @@ const MonthlyReport = () => {
         setMonth(e.target.value)
     }
 
+    const makeRequest = async () => {
+        return new Promise(function (resolve, reject) {
+            let xhr = new XMLHttpRequest()
+            xhr.open('GET', signature)
+            xhr.responseType = 'blob'
+            xhr.onload = function () {
+                var reader = new FileReader()
+                reader.readAsDataURL(xhr.response)
+                reader.onload = function (e) {
+                    const data = e.target.result.replace(/^data:image\/\w+;base64,/, '')
+                    resolve(data)
+                }
+            }
+            xhr.send()
+        });
+    }
+
     const createReport = async () => {
         setLoading(true)
+        const data = await makeRequest()
         if (month === '') {
             errorMessage('Debe seleccionar una fecha')
         } else {
             successMessage('Generando informe')
-            const response = await axios.post(`${HOST}/monthly-report`, { month }, {
+            const response = await axios.post(`${HOST}/monthly-report`, { month, data }, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
