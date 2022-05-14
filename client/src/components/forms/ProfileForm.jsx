@@ -37,7 +37,7 @@ const ProfileForm = () => {
     return (
         <Formik
             initialValues={initialValues}
-            onSubmit={(values) => console.log(values)}
+            onSubmit={(values) => updateUser(values)}
             validationSchema={validationSchema}
         >
             <Form>

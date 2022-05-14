@@ -33,7 +33,6 @@ export const login = createAsyncThunk(
         Authorization: `Bearer ${token}`
       }
     })
-    console.log(response)
     return { token, success: response.data.success, response: response.data.response }
   }
 )

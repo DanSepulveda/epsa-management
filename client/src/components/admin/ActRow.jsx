@@ -7,8 +7,10 @@ import Swal from 'sweetalert2'
 import TemplateForm from '../forms/TemplateForm'
 import Box from '../layout/Box'
 import { userState } from '../../redux/userSlice'
+import themes from '../../app/themes'
 
 const ActRow = ({ activity }) => {
+    const { buttons, common } = themes.default
     const [editable, setEditable] = useState(false)
     const dispatch = useDispatch()
     const token = useSelector(userState).token
@@ -41,11 +43,11 @@ const ActRow = ({ activity }) => {
         <Box>
             <div className='flex justify-center gap-4 mb-4'>
                 <BiEdit
-                    className='text-3xl fill-blue-400 hover:fill-blue-500 transition-all duration-300 cursor-pointer'
+                    className={`text-3xl cursor-pointer ${buttons.edit} ${common.transition}`}
                     onClick={() => setEditable(!editable)}
                 />
                 <BiTrash
-                    className='text-3xl fill-red-400 hover:fill-red-500 transition-all duration-300 cursor-pointer'
+                    className={`text-3xl cursor-pointer ${buttons.delete} ${common.transition}`}
                     onClick={confirmation}
                 />
             </div>
