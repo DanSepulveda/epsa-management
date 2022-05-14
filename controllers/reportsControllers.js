@@ -7,7 +7,7 @@ const User = require('../models/User')
 const formatDate = require('../utils/formatDate')
 const admin = require('../config/firebase.js')
 
-const { Document, Table, TableRow, Paragraph, Packer, TableCell, AlignmentType, Header, ImageRun, convertMillimetersToTwip, BorderStyle } = docx
+const { Document, Table, TableRow, Paragraph, Packer, TableCell, AlignmentType, Header, ImageRun, convertMillimetersToTwip, BorderStyle, twipsMeasureValue } = docx
 
 const reportsControllers = {
     monthlyReport: async (req, res) => {
@@ -208,6 +208,14 @@ const reportsControllers = {
 
             const doc = new Document({
                 sections: [{
+                    properties: {
+                        page: {
+                            size: {
+                                width: twipsMeasureValue(12240),
+                                height: twipsMeasureValue(15840)
+                            }
+                        }
+                    },
                     headers: {
                         default: new Header({
                             children: [headerTable]
