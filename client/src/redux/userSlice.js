@@ -15,7 +15,8 @@ const initialState = {
   fullname: '',
   username: '',
   position: '',
-  signature: ''
+  signature: '',
+  loading: false
 }
 
 export const getUser = () => {
@@ -101,6 +102,9 @@ export const userSlice = createSlice({
           state.token = token
         }
       })
+      .addCase(editUser.pending, (state) => {
+        state.loading = true
+      })
       .addCase(editUser.fulfilled, (state, action) => {
         const { success, response } = action.payload
         if (success) {
@@ -110,6 +114,7 @@ export const userSlice = createSlice({
           state.position = response.position
           state.signature = response.signature
         }
+        state.loading = false
       })
   },
 })
