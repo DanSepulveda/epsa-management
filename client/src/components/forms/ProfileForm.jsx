@@ -9,7 +9,7 @@ import { editUser } from '../../redux/userSlice'
 import { successMessage, errorMessage } from '../../utils/messages'
 
 const ProfileForm = () => {
-    const { fullname, username, position, token } = useSelector(userState)
+    const { fullname, username, position, token, loading } = useSelector(userState)
     const dispatch = useDispatch()
 
     const initialValues = {
@@ -59,7 +59,9 @@ const ProfileForm = () => {
                     label='Función'
                     placeholder='ej: Psicóloga'
                 />
-                <SubmitButton>Guardar cambios</SubmitButton>
+                <SubmitButton loading={loading}>
+                    Guardar cambios
+                </SubmitButton>
             </Form>
         </Formik>
     )

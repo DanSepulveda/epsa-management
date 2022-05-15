@@ -10,7 +10,7 @@ import { userState, editUser } from '../../redux/userSlice'
 const Signature = () => {
     const state = useSelector(userState)
     const { uid, token, signature } = state
-    const [path, setPath] = useState(signature || '/assets/sad-minnie.png')
+    const [path, setPath] = useState(signature)
     const [loading, setLoading] = useState(false)
     const [file, setFile] = useState()
     const dispatch = useDispatch()
@@ -43,8 +43,15 @@ const Signature = () => {
     }
 
     return (
-        <div className='flex flex-col gap-7 items-center'>
-            <img src={path} alt='Signature' className='h-28' />
+        <div className='flex flex-col gap-10 items-center mt-4'>
+            {
+                path
+                    ? <img src={path} alt='Signature' className='h-28' />
+                    : <div className='h-28 flex items-center justify-center'>
+                        <p className='text-pink-600 text-xl font-medium'>No ha subido ninguna imagen de firma</p>
+                    </div>
+            }
+
             <input
                 type='file'
                 name='signature'
