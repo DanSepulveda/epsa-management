@@ -1,8 +1,10 @@
 import { useField } from 'formik'
 import InputError from './InputError'
 import InputLabel from './InputLabel'
+import themes from '../../app/themes'
 
 const InputText = ({ label, ...props }) => {
+    const { input, common } = themes.default
     const [field, meta] = useField(props)
 
     return (
@@ -12,7 +14,7 @@ const InputText = ({ label, ...props }) => {
                 type={props.type || 'text'}
                 {...field}
                 {...props}
-                className='w-full duration-300 py-2 px-3 border border-neutral-300 hover:border-neutral-500 focus:outline-pink-500'
+                className={`w-full py-2 px-3 border ${input.text} ${common.transition}`}
                 autoComplete='off'
             />
             <InputError meta={meta} />
