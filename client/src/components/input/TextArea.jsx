@@ -2,8 +2,10 @@ import { useEffect } from 'react'
 import { useField, Field, useFormikContext } from 'formik'
 import InputError from './InputError'
 import InputLabel from './InputLabel'
+import themes from '../../app/themes'
 
 const TextArea = ({ label, activities, dependent, ...props }) => {
+    const { input, common } = themes.default
     const [field, meta] = useField(props)
     const { values, setFieldValue } = useFormikContext()
 
@@ -24,7 +26,7 @@ const TextArea = ({ label, activities, dependent, ...props }) => {
                 name='template'
                 {...field}
                 {...props}
-                className='py-2 px-3 border border-neutral-300 hover:border-neutral-500 focus:outline-pink-500'
+                className={`py-2 px-3 border ${input.text} ${common.transition}`}
             />
             <InputError meta={meta} />
         </div>
