@@ -4,13 +4,13 @@ import InputError from './InputError'
 import InputLabel from './InputLabel'
 import themes from '../../app/themes'
 
-const TextArea = ({ label, activities, dependent, ...props }) => {
+const TextArea = ({ label, activities, dependent, tag = '', ...props }) => {
     const { input, common } = themes.default
     const [field, meta] = useField(props)
     const { values, setFieldValue } = useFormikContext()
 
     useEffect(() => {
-        if (values.activity !== '' && dependent) {
+        if (values.activity !== '' && dependent && tag === 'new') {
             const value = activities.find(activity => activity.name.includes(values.activity))?.template || ''
             setFieldValue(props.name, value)
         }
