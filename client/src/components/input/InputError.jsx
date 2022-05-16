@@ -1,9 +1,12 @@
+import themes from "../../app/themes"
+
 const InputError = ({ meta }) => {
     const { touched, error } = meta
+    const { input } = themes.default
 
     return (
         <div style={{ 'minHeight': '25px' }}>
-            <span className='text-sm text-red-500'>{touched && error ? error : null}</span>
+            <span className={`text-sm ${input.error}`}>{touched && error ? error : null}</span>
         </div>
     )
 }
