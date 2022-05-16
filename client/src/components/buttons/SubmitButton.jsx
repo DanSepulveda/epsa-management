@@ -1,9 +1,13 @@
+import themes from "../../app/themes"
+
 const SubmitButton = ({ children, loading }) => {
+    const { buttons, common } = themes.default
+
     return (
         <button
             type='submit'
-            className='w-full py-3 text-white font-medium text-center transition-all duration-300 bg-pink-500 hover:bg-pink-500/90'
-            disabled={loading ? true : false}
+            className={`w-full py-3 font-medium text-center ${buttons.submitBtn} ${common.transition}`}
+            disabled={loading}
         >
             {children}
         </button>
