@@ -28,7 +28,7 @@ const Signature = () => {
         try {
             if (!file) throw new Error('empty-file')
             setLoading(true)
-            const toastId = loadingMessage('Actualizando firma')
+            var toastId = loadingMessage('Actualizando firma')
             const extension = getExtension(file.name)
             const imageRef = ref(storage, `users/${uid}/sign.${extension}`)
             await uploadBytes(imageRef, file)
@@ -39,7 +39,7 @@ const Signature = () => {
             if (response.payload.success) loadingSuccess('Actualizada', toastId)
             else throw new Error(response.payload.response)
         } catch ({ message }) {
-            loadingError(getErrorMsg(message))
+            loadingError(getErrorMsg(message), toastId)
         }
     }
 
