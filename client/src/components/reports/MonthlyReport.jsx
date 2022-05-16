@@ -32,7 +32,7 @@ const MonthlyReport = () => {
     const createReport = async () => {
         try {
             setLoading(true)
-            if (month === '') throw new Error('mpty-date')
+            if (month === '') throw new Error('empty-date')
             var toastId = loadingMessage('Generando informe')
 
             const response = await axios.post(`${HOST}/monthly-report`, { month }, {
