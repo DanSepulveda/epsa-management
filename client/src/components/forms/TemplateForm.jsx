@@ -1,12 +1,13 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { createActivity, editActivity, activityState } from '../../redux/activitySlice'
+import { userState } from '../../redux/userSlice'
 import { successMessage, errorMessage } from '../../utils/messages'
+import getErrorMessage from '../../app/getErrorMessage'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import InputText from '../input/InputText'
 import TextArea from '../input/TextArea'
 import SubmitButton from '../buttons/SubmitButton'
-import { userState } from '../../redux/userSlice'
 
 const TemplateForm = ({ tag, data, editable, setEditable }) => {
     const dispatch = useDispatch()
@@ -20,10 +21,10 @@ const TemplateForm = ({ tag, data, editable, setEditable }) => {
                 successMessage('Actividad creada')
                 resetForm()
             } else {
-                throw new Error('Ha ocurrido un error. Intente más tarde')
+                throw new Error(response.payload.response)
             }
-        } catch (error) {
-            errorMessage(error.message)
+        } catch ({ message }) {
+            errorMessage(getErrorMessage(message))
         }
     }
 
@@ -35,10 +36,10 @@ const TemplateForm = ({ tag, data, editable, setEditable }) => {
                 successMessage('Actividad editada')
                 setEditable(false)
             } else {
-                throw new Error('Ha ocurrido un error. Intente más tarde')
+                throw new Error(response.payload.response)
             }
-        } catch (error) {
-            errorMessage(error.message)
+        } catch ({ message }) {
+            errorMessage(getErrorMessage(message))
         }
     }
 
