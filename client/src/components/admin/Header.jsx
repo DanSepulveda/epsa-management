@@ -1,17 +1,18 @@
-import { useLocation } from 'react-router-dom'
+import { useState } from 'react'
+import { useLocation, NavLink } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { userState, clearUserState } from '../../redux/userSlice'
 import { clearActivityState } from '../../redux/activitySlice'
 import { clearRecordState } from '../../redux/recordSlice'
-import { useState } from 'react'
 import { signOut } from 'firebase/auth'
 import { auth } from '../../firebase.config'
 import { HiMenu } from 'react-icons/hi'
-import { NavLink } from 'react-router-dom'
 import MobileMenu from '../navigation/MobileMenu'
+import themes from '../../app/themes'
 
 const Header = () => {
     const path = useLocation().pathname
+    const { header, common } = themes.default
     const [open, setOpen] = useState(false)
     const [openNav, setOpenNav] = useState(false)
     const dispatch = useDispatch()
@@ -33,28 +34,36 @@ const Header = () => {
     }
 
     return (
-        <div className='bg-white shadow-md px-3 sm:px-7 py-2 flex justify-between items-center max-w-full'>
+        <div className={`shadow-md px-3 sm:px-7 py-2 flex justify-between items-center max-w-full ${header.bg}`}>
             <div className='flex gap-3'>
                 <HiMenu
-                    className='text-3xl fill-pink-700 bg sm:hidden'
+                    className={`text-3xl bg sm:hidden ${header.icon}`}
                     onClick={() => setOpenNav(true)}
                 />
-                <h1 className='text-lg font-bold text-rose-700'>{title[path]}</h1>
+                <h1 className={`text-lg font-bold ${header.h1}`}>{title[path]}</h1>
             </div>
             <div className='flex gap-3 items-center'>
-                <p className='hidden md:block text-pink-700 font-medium'><span className='text-slate-700'>Hola </span>{username}</p>
+                <p className={`hidden md:block font-medium ${header.name}`}>
+                    <span className={header.greeting}>Hola </span>
+                    {username}
+                </p>
                 <img
                     src='/assets/minnie.png'
                     alt='Minnie'
                     onClick={() => setOpen(!open)}
-                    className='cursor-pointer h-10'
+                    className={`cursor-pointer rounded-full h-10 border border-transparent ${header.avatar} ${common.transition}`}
                 />
                 {
                     open &&
-                    <div className='absolute top-14 right-3 sm:right-7 rounded-md bg-pink-500 flex flex-col items-center py-4 px-5'>
-                        <NavLink to='/profile' className='text-lg text-white hover:text-pink-900 transition-all duration-300'>Editar perfil</NavLink>
+                    <div className={`absolute top-14 right-3 sm:right-7 rounded-md flex flex-col items-center py-4 px-5 ${header.menu}`}>
+                        <NavLink
+                            to='/profile'
+                            className={`text-lg py-1 ${header.link} ${common.transition}`}
+                        >
+                            Editar perfil
+                        </NavLink>
                         <p
-                            className='cursor-pointer text-lg text-white hover:text-pink-900 transition-all duration-300'
+                            className={`cursor-pointer text-lg border-t py-1 ${header.link} ${common.transition}`}
                             onClick={logout}
                         >
                             Cerrar sessión
