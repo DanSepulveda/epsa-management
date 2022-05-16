@@ -5,7 +5,7 @@ import { auth } from '../../firebase.config'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
 import * as Yup from 'yup'
 import { errorMessage } from '../../utils/messages'
-import errorMessages from '../../app/errorMessages'
+import getErrorMsg from '../../app/getErrorMessage'
 import { Formik, Form } from 'formik'
 import InputText from '../input/InputText'
 import SubmitButton from '../buttons/SubmitButton'
@@ -26,8 +26,8 @@ const LogForm = ({ tag }) => {
             tag === 'login'
                 ? await dispatch(login(token))
                 : await dispatch(signup(token))
-        } catch (error) {
-            errorMessage(errorMessages[error.code] || errorMessages.default)
+        } catch ({ code }) {
+            errorMessage(getErrorMsg(code))
         }
         setLoading(false)
     }
