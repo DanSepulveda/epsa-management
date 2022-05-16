@@ -8,7 +8,7 @@ const AdminView = ({ children }) => {
             <AdminMenu />
             <section className='w-screen overflow-hidden w-full max-w-full flex flex-col sm:flex-1'>
                 <Header />
-                <div className='px-3 sm:px-7 py-5 flex-1 flex flex-col overflow-y-scroll max-w-full'>
+                <div className='px-3 sm:px-7 py-5 flex-1 flex flex-col overflow-y-auto max-w-full'>
                     {children}
                 </div>
             </section>
