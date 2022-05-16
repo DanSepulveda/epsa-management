@@ -16,7 +16,7 @@ const IconButton = ({ children, icon, onClick, loading = false }) => {
             onClick={onClick}
             type='button'
             className={`flex items-center gap-2 py-1 px-2 rounded ${common.transition} ${buttons.iconBtn}`}
-            disabled={loading ? true : false}
+            disabled={loading}
         >
             {icons[icon]}
             {children}
