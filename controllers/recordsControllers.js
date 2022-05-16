@@ -6,8 +6,12 @@ const recordsControllers = {
         try {
             if (!user_id) throw new Error('Access denied')
             const { date, activity, description } = req.body
+            let dateAr = date.split('-')
+            const year = parseInt(dateAr[0])
+            const month = parseInt(dateAr[1] - 1)
+            const day = parseInt(dateAr[2])
             const newRecord = new Record({
-                date,
+                date: new Date(year, month, day),
                 activity,
                 description,
                 user_id
