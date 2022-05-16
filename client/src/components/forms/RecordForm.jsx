@@ -1,14 +1,15 @@
 import useDate from '../../hooks/useDate'
 import { useDispatch, useSelector } from 'react-redux'
 import { createRecord, editRecord, recordState } from '../../redux/recordSlice'
-import { successMessage, errorMessage } from '../../utils/messages'
+import { userState } from '../../redux/userSlice'
 import { activityState } from '../../redux/activitySlice'
+import { successMessage, errorMessage } from '../../utils/messages'
+import getErrorMessage from '../../app/getErrorMessage'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import InputText from '../input/InputText'
 import TextArea from '../input/TextArea'
 import SubmitButton from '../buttons/SubmitButton'
-import { userState } from '../../redux/userSlice'
 
 const RecordForm = ({ tag, data }) => {
     const dispatch = useDispatch()
@@ -24,10 +25,10 @@ const RecordForm = ({ tag, data }) => {
                 successMessage('Registro creado')
                 resetForm()
             } else {
-                throw new Error('Ha ocurrido un error. Intente más tarde')
+                throw new Error(response.payload.response)
             }
-        } catch (error) {
-            errorMessage(error.message)
+        } catch ({ message }) {
+            errorMessage(getErrorMessage(message))
         }
     }
 
@@ -36,9 +37,9 @@ const RecordForm = ({ tag, data }) => {
         try {
             const response = await dispatch(editRecord({ values, id, token }))
             if (response.payload.success) successMessage('Registro editado')
-            else throw new Error('Ha ocurrido un error. Intente más tarde')
-        } catch (error) {
-            errorMessage(error.message)
+            else throw new Error(response.payload.response)
+        } catch ({ message }) {
+            errorMessage(getErrorMessage(message))
         }
     }
 
@@ -87,6 +88,7 @@ const RecordForm = ({ tag, data }) => {
                     disabled={false}
                     activities={activities}
                     dependent={true}
+                    tag={tag}
                 />
                 <div className='w-24 mx-auto'>
                     <SubmitButton loading={loading}>
