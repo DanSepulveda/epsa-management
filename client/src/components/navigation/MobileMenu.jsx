@@ -1,11 +1,14 @@
 import Link from './Link'
 import { RiCloseCircleFill } from 'react-icons/ri'
+import themes from '../../app/themes'
 
 const MobileMenu = ({ setOpenNav }) => {
+    const { menu } = themes.default
+
     return (
-        <section className='sm:hidden absolute top-0 left-0 h-screen bg-gradient-to-b from-pink-500 to-pink-400 py-5 shrink-0'>
+        <section className={`sm:hidden absolute top-0 left-0 h-screen py-5 shrink-0 ${menu.bg}`}>
             <RiCloseCircleFill
-                className='fill-pink-100 mr-3 text-4xl ml-auto mb-3 hover:fill-pink-500/80 cursor-pointer transition-all duration-300'
+                className={`mr-3 text-4xl ml-auto mb-3 cursor-pointer ${menu.close}`}
                 onClick={() => setOpenNav(false)}
             />
             <img src='/assets/logo-epsa.png' alt='Logo Epsa' className='h-20 mx-auto mb-5' />

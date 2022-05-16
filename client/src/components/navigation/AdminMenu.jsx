@@ -1,8 +1,11 @@
 import Link from './Link'
+import themes from '../../app/themes'
 
 const AdminMenu = () => {
+    const { menu } = themes.default
+
     return (
-        <section className='hidden sm:block h-screen bg-gradient-to-b from-pink-500 to-pink-400 py-5 shrink-0'>
+        <section className={`hidden sm:block h-screen py-5 shrink-0 ${menu.bg}`}>
             <img src='/assets/logo-epsa.png' alt='Logo Epsa' className='h-20 mx-auto mb-5' />
             <nav className='pl-3 flex flex-col items-start'>
                 <Link to='/'>Resumen</Link>
