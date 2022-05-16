@@ -1,7 +1,10 @@
 import { AiOutlineTable, AiOutlineUnorderedList, AiOutlineProfile } from 'react-icons/ai'
 import { FaSignature } from 'react-icons/fa'
+import themes from '../../app/themes'
 
 const Tab = ({ children, icon, tab, actualTab, setTab }) => {
+    const { tabs } = themes.default
+
     const icons = {
         table: <AiOutlineTable />,
         list: <AiOutlineUnorderedList />,
@@ -9,7 +12,7 @@ const Tab = ({ children, icon, tab, actualTab, setTab }) => {
         basics: <AiOutlineProfile />
     }
 
-    const className = tab === actualTab ? ' bg-slate-50 border-pink-500' : ' border-transparent'
+    const className = tab === actualTab ? tabs.active : tabs.inactive
 
     return (
         <div

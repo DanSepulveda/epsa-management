@@ -1,6 +1,10 @@
+import themes from "../../app/themes"
+
 const Tabs = ({ children }) => {
+    const { tabs } = themes.default
+
     return (
-        <div className='flex bg-pink-300/30 w-fit'>
+        <div className={`flex w-fit ${tabs.bg}`}>
             {children}
         </div>
     )
