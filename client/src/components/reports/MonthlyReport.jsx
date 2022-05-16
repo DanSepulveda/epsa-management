@@ -1,44 +1,50 @@
 import axios from 'axios'
 import { useState } from 'react'
-import { errorMessage, successMessage } from '../../utils/messages'
 import { useSelector } from 'react-redux'
 import { userState } from '../../redux/userSlice'
-import Box from '../layout/Box'
-import IconButton from '../buttons/IconButton'
 import { storage } from '../../firebase.config'
 import { ref, getDownloadURL } from 'firebase/storage'
+import { loadingError, loadingMessage, loadingSuccess } from '../../utils/messages'
+import errMsg from '../../app/errorMessages'
+import Box from '../layout/Box'
+import IconButton from '../buttons/IconButton'
+import themes from '../../app/themes'
 
 const MonthlyReport = () => {
     const [month, setMonth] = useState('')
     const [loading, setLoading] = useState(false)
     const { token } = useSelector(userState)
+    const { common } = themes.default
 
     const HOST = 'http://localhost:4000/api'
 
-    const inputHandler = (e) => {
-        e.preventDefault()
-        setMonth(e.target.value)
+    const downloadFile = async (documentRef) => {
+        await getDownloadURL(ref(storage, documentRef)).then((url) => {
+            const link = document.createElement('a')
+            link.href = url
+            link.download = 'Informe-mensual.docx'
+            document.body.appendChild(link)
+            link.click()
+            document.body.removeChild(link)
+        })
     }
 
     const createReport = async () => {
-        setLoading(true)
-        if (month === '') {
-            errorMessage('Debe seleccionar una fecha')
-        } else {
-            successMessage('Generando informe')
+        try {
+            setLoading(true)
+            if (month === '') throw new Error('mpty-date')
+            var toastId = loadingMessage('Generando informe')
+
             const response = await axios.post(`${HOST}/monthly-report`, { month }, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
+                headers: { Authorization: `Bearer ${token}` }
             })
 
-            if (response.data.success) {
-                await getDownloadURL(ref(storage, response.data.response)).then((url) => {
-                    window.open(url, '_blank')
-                })
-            } else {
-                errorMessage('Ha ocurrido un error. Intente más tarde')
-            }
+            if (response.data.success) await downloadFile(response.data.response)
+            else throw new Error('reports-controllers')
+
+            loadingSuccess('Descargando...', toastId)
+        } catch ({ message }) {
+            loadingError(errMsg[message], toastId)
         }
         setLoading(false)
     }
@@ -50,14 +56,12 @@ const MonthlyReport = () => {
                 <div className='flex flex-col items-center gap-3 md:flex-row justify-between'>
                     <input
                         type='month'
-                        onChange={(e) => inputHandler(e)}
-                        className='py-1 px-2 border border-pink-700'
+                        onChange={(e) => setMonth(e.target.value)}
+                        className={`py-1 px-2 border ${common.inputBorder}`}
                     />
-                    <div className=''>
-                        <IconButton icon='word' onClick={createReport} loading={loading}>
-                            Generar
-                        </IconButton>
-                    </div>
+                    <IconButton icon='word' onClick={createReport} loading={loading}>
+                        Generar
+                    </IconButton>
                 </div>
             </div>
         </Box>
