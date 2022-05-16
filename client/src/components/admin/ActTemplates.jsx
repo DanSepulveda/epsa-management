@@ -6,8 +6,10 @@ import TemplateForm from '../forms/TemplateForm'
 import InfoBox from '../InfoBox'
 import OverForm from '../layout/OverForm'
 import ActRow from './ActRow'
+import themes from '../../app/themes'
 
 const ActTemplates = () => {
+    const { text } = themes.default
     const [open, setOpen] = useState(false)
     const activities = useSelector(activityState).activities
 
@@ -30,7 +32,7 @@ const ActTemplates = () => {
             {
                 open &&
                 <OverForm setOpen={setOpen}>
-                    <h2 className='text-center text-pink-700 mb-7 text-2xl font-bold uppercase'>Crear plantilla</h2>
+                    <h2 className={`text-center mb-7 text-2xl font-bold uppercase ${text.formTitle}`}>Crear plantilla</h2>
                     <TemplateForm tag='new' data={null} editable={null} setEditable={null} />
                 </OverForm>
             }
