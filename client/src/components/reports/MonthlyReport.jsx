@@ -5,13 +5,13 @@ import { userState } from '../../redux/userSlice'
 import { storage } from '../../firebase.config'
 import { ref, getDownloadURL } from 'firebase/storage'
 import { loadingError, loadingMessage, loadingSuccess } from '../../utils/messages'
-import errMsg from '../../app/errorMessages'
+import getErrorMsg from '../../app/errorMessages'
 import Box from '../layout/Box'
 import IconButton from '../buttons/IconButton'
 import themes from '../../app/themes'
 
 const MonthlyReport = () => {
-    const [month, setMonth] = useState('')
+    const [date, setDate] = useState('')
     const [loading, setLoading] = useState(false)
     const { token } = useSelector(userState)
     const { common } = themes.default
@@ -32,19 +32,19 @@ const MonthlyReport = () => {
     const createReport = async () => {
         try {
             setLoading(true)
-            if (month === '') throw new Error('empty-date')
+            if (date === '') throw new Error('empty-date')
             var toastId = loadingMessage('Generando informe')
 
-            const response = await axios.post(`${HOST}/monthly-report`, { month }, {
+            const response = await axios.post(`${HOST}/monthly-report`, { date }, {
                 headers: { Authorization: `Bearer ${token}` }
             })
 
             if (response.data.success) await downloadFile(response.data.response)
-            else throw new Error('reports-controllers')
+            else throw new Error(response.data.response)
 
             loadingSuccess('Descargando...', toastId)
         } catch ({ message }) {
-            loadingError(errMsg[message], toastId)
+            loadingError(getErrorMsg(message), toastId)
         }
         setLoading(false)
     }
@@ -56,7 +56,7 @@ const MonthlyReport = () => {
                 <div className='flex flex-col items-center gap-3 md:flex-row justify-between'>
                     <input
                         type='month'
-                        onChange={(e) => setMonth(e.target.value)}
+                        onChange={(e) => setDate(e.target.value)}
                         className={`py-1 px-2 border ${common.inputBorder}`}
                     />
                     <IconButton icon='word' onClick={createReport} loading={loading}>
