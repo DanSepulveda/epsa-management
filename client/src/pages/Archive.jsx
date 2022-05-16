@@ -6,7 +6,9 @@ const Archive = () => {
 
     return (
         <AdminView>
-            <section>Próximamente</section>
+            <section>
+                Próximamente
+            </section>
         </AdminView>
     )
 }
