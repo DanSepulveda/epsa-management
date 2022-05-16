@@ -15,6 +15,7 @@ module.exports = validateUser = async (req, res, next) => {
 
         if (user) {
             req.id = user._id
+            req.user = user
         }
         req.uid = response.uid
         req.email = response.email
