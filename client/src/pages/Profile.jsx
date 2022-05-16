@@ -6,9 +6,11 @@ import Tab from '../components/navigation/Tab'
 import useTitle from '../hooks/useTitle'
 import { useState } from 'react'
 import Signature from '../components/admin/Signature'
+import themes from '../app/themes'
 
 const Profile = () => {
     useTitle('Perfil de usuario')
+    const { text } = themes.default
     const [tab, setTab] = useState(1)
 
     return (
@@ -22,7 +24,7 @@ const Profile = () => {
                     tab === 1
                         ? <Box>
                             <div className='py-5 px-3'>
-                                <h2 className='text-center mb-4 text-2xl font-bold text-pink-600'>Editar perfil</h2>
+                                <h2 className={`text-center mb-4 text-2xl font-bold ${text.formTitle}`}>Editar perfil</h2>
                                 <ProfileForm />
                             </div>
                         </Box>
