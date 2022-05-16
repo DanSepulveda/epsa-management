@@ -4,7 +4,7 @@ import { createRecord, editRecord, recordState } from '../../redux/recordSlice'
 import { userState } from '../../redux/userSlice'
 import { activityState } from '../../redux/activitySlice'
 import { successMessage, errorMessage } from '../../utils/messages'
-import getErrorMessage from '../../app/getErrorMessage'
+import getErrorMsg from '../../app/getErrorMsg'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import InputText from '../input/InputText'
@@ -28,7 +28,7 @@ const RecordForm = ({ tag, data }) => {
                 throw new Error(response.payload.response)
             }
         } catch ({ message }) {
-            errorMessage(getErrorMessage(message))
+            errorMessage(getErrorMsg(message))
         }
     }
 
@@ -39,7 +39,7 @@ const RecordForm = ({ tag, data }) => {
             if (response.payload.success) successMessage('Registro editado')
             else throw new Error(response.payload.response)
         } catch ({ message }) {
-            errorMessage(getErrorMessage(message))
+            errorMessage(getErrorMsg(message))
         }
     }
 

@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { userState, editUser } from '../../redux/userSlice'
 import { loadingMessage, loadingSuccess, loadingError } from '../../utils/messages'
-import getErrorMsg from '../../app/getErrorMessage'
+import getErrorMsg from '../../app/getErrorMsg'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import InputText from '../input/InputText'

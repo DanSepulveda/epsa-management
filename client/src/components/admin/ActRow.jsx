@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { BiEdit, BiTrash } from 'react-icons/bi'
+import { userState } from '../../redux/userSlice'
 import { deleteActivity } from '../../redux/activitySlice'
 import { successMessage, errorMessage } from '../../utils/messages'
+import getErrorMsg from '../../app/getErrorMsg'
 import Swal from 'sweetalert2'
+import { BiEdit, BiTrash } from 'react-icons/bi'
 import TemplateForm from '../forms/TemplateForm'
 import Box from '../layout/Box'
-import { userState } from '../../redux/userSlice'
 import themes from '../../app/themes'
 
 const ActRow = ({ activity }) => {
@@ -19,9 +20,9 @@ const ActRow = ({ activity }) => {
         try {
             const response = await dispatch(deleteActivity({ id: activity._id, token }))
             if (response.payload.success) successMessage('Actividad eliminada')
-            else throw new Error('Ha ocurrido un error. Intente más tarde')
-        } catch (error) {
-            errorMessage(error.message)
+            else throw new Error(response.payload.response)
+        } catch ({ message }) {
+            errorMessage(getErrorMsg(message))
         }
     }
 
