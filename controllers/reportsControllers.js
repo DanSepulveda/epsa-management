@@ -3,34 +3,56 @@ const path = require('path')
 const fs = require('fs')
 const os = require('os')
 const Record = require('../models/Record')
-const User = require('../models/User')
 const formatDate = require('../utils/formatDate')
 const admin = require('../config/firebase.js')
-
+const axios = require('axios')
 const { Document, Table, TableRow, Paragraph, Packer, TableCell, AlignmentType, Header, ImageRun, convertMillimetersToTwip, BorderStyle, twipsMeasureValue } = docx
 
 const reportsControllers = {
     monthlyReport: async (req, res) => {
-        const { month, data } = req.body
-        const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre',]
-        const selectedMonth = months[month.split('-')[1] - 1]
-        const year = month.split('-')[0]
-        const user_id = req.id
-        const uid = req.uid
+        const months = [
+            'Enero',
+            'Febrero',
+            'Marzo',
+            'Abril',
+            'Mayo',
+            'Junio',
+            'Julio',
+            'Agosto',
+            'Septiembre',
+            'Octubre',
+            'Noviembre',
+            'Diciembre'
+        ]
+        const { date } = req.body
+        const month = date.split('-')[1] - 1
+        const year = date.split('-')[0]
+        const { fullname, position, signature, uid, _id } = req.user
 
         try {
-            if (!user_id) throw new Error('Access denied')
+            if (!req.user) throw new Error('Access denied')
 
-            const user = await User.findOne({ uid })
-            const { fullname, position } = user
+            const urlToBuffer = async (url) => {
+                const response = await axios(url, { responseType: 'arraybuffer' })
+                const buffer64 = Buffer.from(response.data, 'binary').toString('base64')
+                return buffer64
+            }
 
-            const buf = Buffer.from(data, 'base64')
-            const imageName = 'sign.png'
-            const imagePath = path.join(os.tmpdir(), imageName)
+            // Generating buffer from sign image url
+            const imgBuf = await urlToBuffer(signature)
+            const buf = Buffer.from(imgBuf, 'base64')
+
+            // Creating sign image file on OS temp
+            const fileExtension = signature.split('sign')[1].split('?')[0]
+            const imagePath = path.join(os.tmpdir(), `sign${fileExtension}`)
             fs.writeFileSync(imagePath, buf)
 
+            const fromDate = new Date(parseInt(year), parseInt(month), 1)
+            const toDate = new Date(parseInt(year), parseInt(month) + 1, 0)
+
+            // Getting records from database
             const recordsbyDay = await Record.aggregate([
-                { $match: { user_id } },
+                { $match: { user_id: _id, date: { '$gte': fromDate, '$lte': toDate } } },
                 {
                     $group: {
                         _id: '$date', records: { $push: { activity: '$activity', description: '$description' } }
@@ -38,6 +60,8 @@ const reportsControllers = {
                 },
                 { $project: { date: '$_id', records: 1, _id: 0 } }
             ]).sort({ date: 1 })
+
+            if (!recordsbyDay.length) throw new Error('no-records')
 
             const br = () => {
                 return new Paragraph({ text: '' })
@@ -182,7 +206,7 @@ const reportsControllers = {
                     new TableRow({
                         children: [
                             tableCell('Periodo al que corresponde:', 37, 'bold', 'left'),
-                            tableCell(`${selectedMonth} ${year}`, 63, 'normal', 'left')
+                            tableCell(`${months[month]} ${year}`, 63, 'normal', 'left')
                         ]
                     })
                 ],
@@ -296,19 +320,16 @@ const reportsControllers = {
                 }
             })
 
-            const filename = `${selectedMonth}${year}.docx`
+            // Creating docx file on OS temp
+            const filename = `${months[month]}${year}.docx`
             const tempPath = path.join(os.tmpdir(), filename)
-
             const buffer = await Packer.toBuffer(doc)
             fs.writeFileSync(tempPath, buffer)
 
-            // FIREBASE HOSTING
+            // Saving dociment on Firebase storage
             const bucket = await admin.storage().bucket("panel-epsa.appspot.com")
             const destination = `users/${uid}/monthly-reports/${filename}`
-
-            const file = await bucket.upload(tempPath, {
-                destination
-            })
+            const file = await bucket.upload(tempPath, { destination })
 
             const ref = file[0].metadata.name
 
