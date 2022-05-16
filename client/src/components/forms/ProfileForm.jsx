@@ -1,12 +1,11 @@
+import { useDispatch, useSelector } from 'react-redux'
+import { userState, editUser } from '../../redux/userSlice'
+import { loadingMessage, loadingSuccess, loadingError } from '../../utils/messages'
+import getErrorMsg from '../../app/getErrorMessage'
 import { Formik, Form } from 'formik'
-import { useSelector } from 'react-redux'
 import * as Yup from 'yup'
-import { userState } from '../../redux/userSlice'
-import SubmitButton from '../buttons/SubmitButton'
 import InputText from '../input/InputText'
-import { useDispatch } from 'react-redux'
-import { editUser } from '../../redux/userSlice'
-import { successMessage, errorMessage } from '../../utils/messages'
+import SubmitButton from '../buttons/SubmitButton'
 
 const ProfileForm = () => {
     const { fullname, username, position, token, loading } = useSelector(userState)
@@ -26,11 +25,13 @@ const ProfileForm = () => {
 
     const updateUser = async (values) => {
         try {
+            if (JSON.stringify(initialValues) === JSON.stringify(values)) throw new Error('no-changes')
+            var toastId = loadingMessage('Actualizando perfil')
             const response = await dispatch(editUser({ values, token }))
-            if (response.payload.success) successMessage('Perfil actualizado')
-            else throw new Error('Ha ocurrido un error. Intente más tarde')
-        } catch (error) {
-            errorMessage(error.message)
+            if (response.payload.success) loadingSuccess('Actualizado', toastId)
+            else throw new Error(response.payload.response)
+        } catch ({ message }) {
+            loadingError(getErrorMsg(message), toastId)
         }
     }
 
