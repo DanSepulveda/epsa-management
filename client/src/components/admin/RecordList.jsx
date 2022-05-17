@@ -8,8 +8,10 @@ import RecordForm from '../forms/RecordForm'
 import InfoBox from '../InfoBox'
 import OverForm from '../layout/OverForm'
 import RecordRow from './RecordRow'
+import themes from '../../app/themes'
 
 const RecordList = () => {
+    const { text } = themes.default
     const dispatch = useDispatch()
     const [open, setOpen] = useState(false)
     const [tag, setTag] = useState('new')
@@ -51,7 +53,9 @@ const RecordList = () => {
             {
                 open &&
                 <OverForm setOpen={setOpen}>
-                    <h2 className='text-center text-pink-700 mb-7 text-2xl font-bold uppercase'>Crear registro</h2>
+                    <h2 className={`text-center mb-7 text-2xl font-bold uppercase ${text.formTitle}`}>
+                        {tag === 'new' ? 'Crear registro' : 'Editar registro'}
+                    </h2>
                     <RecordForm tag={tag} data={data} />
                 </OverForm>
             }

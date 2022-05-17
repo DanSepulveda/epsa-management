@@ -1,13 +1,16 @@
-import { BiEdit, BiTrash } from 'react-icons/bi'
 import useFormatDate from '../../hooks/useFormatDate'
-import Box from '../layout/Box'
-import Swal from 'sweetalert2'
 import { useDispatch, useSelector } from 'react-redux'
+import { userState } from '../../redux/userSlice'
 import { deleteRecord } from '../../redux/recordSlice'
 import { successMessage, errorMessage } from '../../utils/messages'
-import { userState } from '../../redux/userSlice'
+import getErrorMsg from '../../app/getErrorMsg'
+import Swal from 'sweetalert2'
+import { BiEdit, BiTrash } from 'react-icons/bi'
+import Box from '../layout/Box'
+import themes from '../../app/themes'
 
 const RecordRow = ({ record, setTag, setId, setOpen }) => {
+    const { buttons, common } = themes.default
     const date = useFormatDate(record.date)
     const dispatch = useDispatch()
     const token = useSelector(userState).token
@@ -16,9 +19,9 @@ const RecordRow = ({ record, setTag, setId, setOpen }) => {
         try {
             const response = await dispatch(deleteRecord({ id: record._id, token }))
             if (response.payload.success) successMessage('Registro eliminado')
-            else throw new Error('Ha ocurrido un error. Intente más tarde')
-        } catch (error) {
-            errorMessage(error.message)
+            else throw new Error(response.payload.response)
+        } catch ({ message }) {
+            errorMessage(getErrorMsg(message))
         }
     }
 
@@ -41,7 +44,7 @@ const RecordRow = ({ record, setTag, setId, setOpen }) => {
             <div className='py-5 grid grid-cols-12'>
                 <div className='col-start-1 flex flex-col gap-5'>
                     <BiEdit
-                        className='text-3xl fill-blue-400 hover:fill-blue-500 transition-all duration-300 cursor-pointer'
+                        className={`text-3xl cursor-pointer ${buttons.edit} ${common.transition}`}
                         onClick={() => {
                             setTag('edit')
                             setId(record._id)
@@ -49,7 +52,7 @@ const RecordRow = ({ record, setTag, setId, setOpen }) => {
                         }}
                     />
                     <BiTrash
-                        className='text-3xl fill-red-400 hover:fill-red-500 transition-all duration-300 cursor-pointer'
+                        className={`text-3xl cursor-pointer ${buttons.delete} ${common.transition}`}
                         onClick={confirmation}
                     />
                 </div>
