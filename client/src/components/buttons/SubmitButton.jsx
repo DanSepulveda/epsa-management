@@ -1,7 +1,9 @@
-import themes from "../../app/themes"
+import { useSelector } from 'react-redux'
+import { userState } from '../../redux/userSlice'
 
 const SubmitButton = ({ children, loading }) => {
-    const { buttons, common } = themes.default
+    const { theme } = useSelector(userState)
+    const { buttons, common } = theme
 
     return (
         <button

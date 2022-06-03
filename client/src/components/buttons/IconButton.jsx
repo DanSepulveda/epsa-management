@@ -1,8 +1,10 @@
+import { useSelector } from 'react-redux'
+import { userState } from '../../redux/userSlice'
 import { BsFileEarmarkWord, BsDownload, BsPlusLg, BsImage } from 'react-icons/bs'
-import themes from '../../app/themes'
 
 const IconButton = ({ children, icon, onClick, loading = false }) => {
-    const { buttons, common } = themes.default
+    const { theme } = useSelector(userState)
+    const { buttons, common } = theme
 
     const icons = {
         word: <BsFileEarmarkWord className={buttons.iconFill} />,
