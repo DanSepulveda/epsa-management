@@ -22,7 +22,8 @@ const Header = () => {
         '/records': 'Registros',
         '/reports': 'Informes',
         '/files': 'Archivos subidos',
-        '/profile': 'Perfil'
+        '/profile': 'Perfil',
+        '/students': 'Alumnos'
     }
 
     const logout = async () => {

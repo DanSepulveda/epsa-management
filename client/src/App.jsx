@@ -13,6 +13,7 @@ import Records from './pages/Records'
 import Archive from './pages/Archive'
 import Profile from './pages/Profile'
 import Loader from './components/Loader'
+import Students from './pages/Students'
 
 const App = () => {
   const { _id, tokenlog } = useSelector(userState)
@@ -35,6 +36,7 @@ const App = () => {
           {_id && <Route path='/records' element={<Records />} />}
           {_id && <Route path='/files' element={<Archive />} />}
           {_id && <Route path='/profile' element={<Profile />} />}
+          {_id && <Route path='/students' element={<Students />} />}
           {!_id && <Route path='/login' element={<SignIn />} />}
           {!_id && <Route path='/signup' element={<SignUp />} />}
           <Route path='*' element={<Navigate to={_id ? '/' : '/login'} />} />

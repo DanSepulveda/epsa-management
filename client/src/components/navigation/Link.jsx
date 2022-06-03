@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux'
 import { userState } from '../../redux/userSlice'
 import { NavLink } from 'react-router-dom'
 import { MdOutlineDashboard, MdOutlinePendingActions } from 'react-icons/md'
-import { BsFileEarmarkWord } from 'react-icons/bs'
+import { BsFileEarmarkWord, BsFillPersonFill } from 'react-icons/bs'
 import { RiFileCopy2Line } from 'react-icons/ri'
 import { CgProfile } from 'react-icons/cg'
 
@@ -15,7 +15,8 @@ const Link = ({ to, children }) => {
         '/records': <MdOutlinePendingActions className={menu.icon} />,
         '/reports': <BsFileEarmarkWord className={menu.icon} />,
         '/files': <RiFileCopy2Line className={menu.icon} />,
-        '/profile': <CgProfile className={menu.icon} />
+        '/profile': <CgProfile className={menu.icon} />,
+        '/students': <BsFillPersonFill className={menu.icon} />
     }
 
     return (

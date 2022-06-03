@@ -11,6 +11,7 @@ const AdminMenu = () => {
             <img src='/assets/logo-epsa.png' alt='Logo Epsa' className='h-20 mx-auto mb-5' />
             <nav className='pl-3 flex flex-col items-start'>
                 <Link to='/'>Resumen</Link>
+                <Link to='/students'>Alumnos</Link>
                 <Link to='/records'>Registros diarios</Link>
                 <Link to='/reports'>Informes</Link>
                 <Link to='/files'>Archivos</Link>
