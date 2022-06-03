@@ -7,12 +7,10 @@ import getExtension from '../../utils/getExtension'
 import { loadingError, loadingMessage, loadingSuccess } from '../../utils/messages'
 import getErrorMsg from '../../app/getErrorMsg'
 import IconButton from '../buttons/IconButton'
-import themes from '../../app/themes'
 
 const Signature = () => {
-    const { text } = themes.default
-    const state = useSelector(userState)
-    const { uid, token, signature } = state
+    const { uid, token, signature, theme } = useSelector(userState)
+    const { text } = theme
     const [path, setPath] = useState(signature)
     const [loading, setLoading] = useState(false)
     const [file, setFile] = useState()

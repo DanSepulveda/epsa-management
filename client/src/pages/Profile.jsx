@@ -1,16 +1,18 @@
+import useTitle from '../hooks/useTitle'
+import { useState } from 'react'
+import { useSelector } from 'react-redux'
+import { userState } from '../redux/userSlice'
 import ProfileForm from '../components/forms/ProfileForm'
 import AdminView from '../components/layout/AdminView'
 import Box from '../components/layout/Box'
 import Tabs from '../components/navigation/Tabs'
 import Tab from '../components/navigation/Tab'
-import useTitle from '../hooks/useTitle'
-import { useState } from 'react'
 import Signature from '../components/admin/Signature'
-import themes from '../app/themes'
 
 const Profile = () => {
     useTitle('Perfil de usuario')
-    const { text } = themes.default
+    const { theme } = useSelector(userState)
+    const { text } = theme
     const [tab, setTab] = useState(1)
 
     return (
@@ -24,7 +26,9 @@ const Profile = () => {
                     tab === 1
                         ? <Box>
                             <div className='py-5 px-3'>
-                                <h2 className={`text-center mb-4 text-2xl font-bold ${text.formTitle}`}>Editar perfil</h2>
+                                <h2 className={`text-center mb-4 text-2xl font-bold ${text.formTitle}`}>
+                                    Editar perfil
+                                </h2>
                                 <ProfileForm />
                             </div>
                         </Box>
