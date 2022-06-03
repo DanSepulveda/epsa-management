@@ -1,13 +1,14 @@
 import useTitle from '../hooks/useTitle'
 import AdminView from '../components/layout/AdminView'
+import UnderConstruction from '../components/information/UnderConstruction'
 
 const Archive = () => {
     useTitle('Archivos subidos')
 
     return (
         <AdminView>
-            <section>
-                Próximamente
+            <section className='flex justify-center items-center h-full'>
+                <UnderConstruction />
             </section>
         </AdminView>
     )

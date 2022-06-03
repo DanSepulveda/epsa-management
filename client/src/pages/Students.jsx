@@ -1,13 +1,14 @@
 import AdminView from '../components/layout/AdminView'
 import useTitle from '../hooks/useTitle'
+import UnderConstruction from '../components/information/UnderConstruction'
 
 const Students = () => {
     useTitle('Alumnos')
 
     return (
         <AdminView>
-            <section className='flex flex-col gap-5'>
-                Students
+            <section className='flex justify-center items-center h-full'>
+                <UnderConstruction />
             </section>
         </AdminView>
     )

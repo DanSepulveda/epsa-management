@@ -1,14 +1,15 @@
 import useTitle from '../hooks/useTitle'
 import AdminView from '../components/layout/AdminView'
+import UnderConstruction from '../components/information/UnderConstruction'
 
 const Dashboard = () => {
     useTitle('Inicio')
 
     return (
         <AdminView>
-            <div className='flex'>
-                Próximamente
-            </div>
+            <section className='flex justify-center items-center h-full'>
+                <UnderConstruction />
+            </section>
         </AdminView>
     )
 }
