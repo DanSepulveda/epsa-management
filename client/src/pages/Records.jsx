@@ -13,9 +13,9 @@ const Records = () => {
     return (
         <AdminView>
             <div className='max-w-full flex-col'>
-                <Tabs>
-                    <Tab icon='table' tab={1} actualTab={tab} setTab={setTab}>Lista</Tab>
-                    <Tab icon='list' tab={2} actualTab={tab} setTab={setTab}>Plantillas</Tab>
+                <Tabs actualTab={tab} setTab={setTab}>
+                    <Tab icon='table' tab={1}>Lista</Tab>
+                    <Tab icon='list' tab={2}>Plantillas</Tab>
                 </Tabs>
                 {tab === 1 ? <RecordList /> : <ActTemplates />}
             </div>
