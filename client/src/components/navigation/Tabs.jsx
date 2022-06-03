@@ -1,7 +1,9 @@
-import themes from "../../app/themes"
+import { useSelector } from 'react-redux'
+import { userState } from '../../redux/userSlice'
 
 const Tabs = ({ children }) => {
-    const { tabs } = themes.default
+    const { theme } = useSelector(userState)
+    const { tabs } = theme
 
     return (
         <div className={`flex w-fit ${tabs.bg}`}>

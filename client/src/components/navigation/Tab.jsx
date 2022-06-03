@@ -1,9 +1,11 @@
 import { AiOutlineTable, AiOutlineUnorderedList, AiOutlineProfile } from 'react-icons/ai'
 import { FaSignature } from 'react-icons/fa'
-import themes from '../../app/themes'
+import { useSelector } from 'react-redux'
+import { userState } from '../../redux/userSlice'
 
 const Tab = ({ children, icon, tab, actualTab, setTab }) => {
-    const { tabs } = themes.default
+    const { theme } = useSelector(userState)
+    const { tabs } = theme
 
     const icons = {
         table: <AiOutlineTable />,
@@ -20,7 +22,9 @@ const Tab = ({ children, icon, tab, actualTab, setTab }) => {
             onClick={() => setTab(tab)}
         >
             {icons[icon]}
-            <h3 className={tab === actualTab ? 'font-medium' : ''}>{children}</h3>
+            <h3 className={tab === actualTab ? 'font-medium' : ''}>
+                {children}
+            </h3>
         </div>
     )
 }
