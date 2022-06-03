@@ -1,12 +1,15 @@
-import themes from "../../app/themes"
+import { useSelector } from 'react-redux'
+import { userState } from '../../redux/userSlice'
 
 const InputError = ({ meta }) => {
+    const { theme } = useSelector(userState)
     const { touched, error } = meta
-    const { input } = themes.default
 
     return (
         <div style={{ 'minHeight': '25px' }}>
-            <span className={`text-sm ${input.error}`}>{touched && error ? error : null}</span>
+            <span className={`text-xs pl-1 ${theme.input.error}`}>
+                {touched && error ? error : null}
+            </span>
         </div>
     )
 }

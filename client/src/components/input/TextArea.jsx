@@ -1,11 +1,13 @@
 import { useEffect } from 'react'
 import { useField, Field, useFormikContext } from 'formik'
+import { useSelector } from 'react-redux'
+import { userState } from '../../redux/userSlice'
 import InputError from './InputError'
 import InputLabel from './InputLabel'
-import themes from '../../app/themes'
 
 const TextArea = ({ label, activities, dependent, tag = '', ...props }) => {
-    const { input, common } = themes.default
+    const { theme } = useSelector(userState)
+    const { input, common } = theme
     const [field, meta] = useField(props)
     const { values, setFieldValue } = useFormikContext()
 
@@ -19,14 +21,19 @@ const TextArea = ({ label, activities, dependent, tag = '', ...props }) => {
 
     return (
         <div className='w-full mb-10 flex flex-col'>
-            {label && <InputLabel id={props.id}>{label}</InputLabel>}
+            {
+                label &&
+                <InputLabel id={props.id}>
+                    {label}
+                </InputLabel>
+            }
             <Field
                 as='textarea'
                 rows={4}
                 name='template'
+                className={`py-2 px-3 border ${input.text} ${common.transition}`}
                 {...field}
                 {...props}
-                className={`py-2 px-3 border ${input.text} ${common.transition}`}
             />
             <InputError meta={meta} />
         </div>
