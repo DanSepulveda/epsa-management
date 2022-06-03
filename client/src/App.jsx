@@ -5,7 +5,8 @@ import { userState, getUser } from './redux/userSlice'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 // COMPONENTS
 import Main from './components/layout/Main'
-import LogPage from './pages/LogPage'
+import SignIn from './pages/Signin'
+import SignUp from './pages/Signup'
 import Dashboard from './pages/Dashboard'
 import Reports from './pages/Reports'
 import Records from './pages/Records'
@@ -34,8 +35,8 @@ const App = () => {
           {_id && <Route path='/records' element={<Records />} />}
           {_id && <Route path='/files' element={<Archive />} />}
           {_id && <Route path='/profile' element={<Profile />} />}
-          {!_id && <Route path='/login' element={<LogPage tag='login' />} />}
-          {!_id && <Route path='/signup' element={<LogPage />} />}
+          {!_id && <Route path='/login' element={<SignIn />} />}
+          {!_id && <Route path='/signup' element={<SignUp />} />}
           <Route path='*' element={<Navigate to={_id ? '/' : '/login'} />} />
         </Routes>
       </BrowserRouter>
