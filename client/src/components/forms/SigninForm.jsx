@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { login, signup } from '../../redux/userSlice'
+import { login } from '../../redux/userSlice'
 import { auth } from '../../firebase.config'
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
+import { signInWithEmailAndPassword } from 'firebase/auth'
 import * as Yup from 'yup'
 import { errorMessage } from '../../utils/messages'
 import getErrorMsg from '../../app/getErrorMsg'
@@ -10,22 +10,16 @@ import { Formik, Form } from 'formik'
 import InputText from '../input/InputText'
 import SubmitButton from '../buttons/SubmitButton'
 
-const LogForm = ({ tag }) => {
+const SigninForm = () => {
     const dispatch = useDispatch()
     const [loading, setLoading] = useState(false)
 
     const handleSign = async ({ email, password }) => {
         setLoading(true)
         try {
-            const response = tag === 'login'
-                ? await signInWithEmailAndPassword(auth, email, password)
-                : await createUserWithEmailAndPassword(auth, email, password)
-
+            const response = await signInWithEmailAndPassword(auth, email, password)
             const token = response.user.accessToken
-
-            tag === 'login'
-                ? await dispatch(login(token))
-                : await dispatch(signup(token))
+            await dispatch(login(token))
         } catch ({ code }) {
             errorMessage(getErrorMsg(code))
         }
@@ -37,13 +31,7 @@ const LogForm = ({ tag }) => {
         password: Yup.string().min(8, 'Mínimo 8 caracteres').max(16, 'Máximo 16 caracteres').required('Campo requerido')
     })
 
-    const buttonText = tag === 'login' && loading
-        ? 'Ingresando'
-        : tag === 'login' && !loading
-            ? 'Ingresar'
-            : loading
-                ? 'Registrando'
-                : 'Registrar'
+    const buttonText = loading ? 'Ingresando' : 'Ingresar'
 
     return (
         <Formik
@@ -73,4 +61,4 @@ const LogForm = ({ tag }) => {
     )
 }
 
-export default LogForm
+export default SigninForm
