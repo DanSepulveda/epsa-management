@@ -41,7 +41,7 @@ const RecordRow = ({ record, setTag, setId, setOpen }) => {
     return (
         <Box>
             <div className='py-5 grid grid-cols-12'>
-                <div className='col-start-1 flex flex-col gap-5'>
+                <div className='col-span-12 lg:col-start-1 lg:col-span-1 flex lg:flex-col justify-center gap-5 lg:gap-0 order-6 lg:order-none lg:justify-start'>
                     <BiEdit
                         className={`text-3xl cursor-pointer ${buttons.edit} ${common.transition}`}
                         onClick={() => {
@@ -55,15 +55,15 @@ const RecordRow = ({ record, setTag, setId, setOpen }) => {
                         onClick={confirmation}
                     />
                 </div>
-                <div className='col-start-2 col-span-2'>
+                <div className='col-span-12 lg:col-start-2 lg:col-span-2 flex gap-3 lg:block lg:gap-0'>
                     <h4 className='font-medium text-md'>Fecha</h4>
                     <p className=''>{date}</p>
                 </div>
-                <div className='col-start-4 col-span-4'>
+                <div className='col-span-12 lg:col-start-4 lg:col-span-4 flex gap-3 lg:block lg:gap-0'>
                     <h4 className='font-medium text-md'>Actividad</h4>
                     <p>{record.activity}</p>
                 </div>
-                <div className='col-start-8 col-span-5'>
+                <div className='col-span-12 lg:col-start-8 lg:col-span-5'>
                     <h4 className='font-medium text-md'>Descripción</h4>
                     <p>{record.description}</p>
                 </div>
