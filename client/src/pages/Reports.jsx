@@ -1,9 +1,9 @@
-import AdminView from '../components/layout/AdminView'
 import useTitle from '../hooks/useTitle'
+import AdminView from '../components/layout/AdminView'
 import MonthlyReport from '../components/reports/MonthlyReport'
 
 const Reports = () => {
-    useTitle('Reportes')
+    useTitle('Informes')
 
     return (
         <AdminView>
