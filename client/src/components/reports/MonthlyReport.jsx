@@ -6,15 +6,14 @@ import { storage } from '../../firebase.config'
 import { ref, getDownloadURL } from 'firebase/storage'
 import { loadingError, loadingMessage, loadingSuccess } from '../../utils/messages'
 import getErrorMsg from '../../app/getErrorMsg'
-import Box from '../layout/Box'
 import IconButton from '../buttons/IconButton'
-import themes from '../../app/themes'
+import ReportRow from '../layout/ReportRow'
 
 const MonthlyReport = () => {
     const [date, setDate] = useState('')
     const [loading, setLoading] = useState(false)
-    const { token } = useSelector(userState)
-    const { common } = themes.default
+    const { token, theme } = useSelector(userState)
+    const { common } = theme
 
     const HOST = 'http://localhost:4000/api'
 
@@ -50,21 +49,17 @@ const MonthlyReport = () => {
     }
 
     return (
-        <Box>
-            <div className='lg:flex items-center justify-between'>
-                <h2 className='text-lg font-medium text-center mb-3 lg:mb-0'>Informe mensual</h2>
-                <div className='flex flex-col items-center gap-3 md:flex-row justify-between'>
-                    <input
-                        type='month'
-                        onChange={(e) => setDate(e.target.value)}
-                        className={`py-1 px-2 border ${common.inputBorder}`}
-                    />
-                    <IconButton icon='word' onClick={createReport} loading={loading}>
-                        Generar
-                    </IconButton>
-                </div>
-            </div>
-        </Box>
+        <ReportRow title='Informe mensual'>
+            <input
+                type='month'
+                onChange={(e) => setDate(e.target.value)}
+                className={`py-1 px-2 border ${common.inputBorder}`}
+            />
+            <IconButton icon='word' onClick={createReport} loading={loading}>
+                Generar
+            </IconButton>
+        </ReportRow>
+
     )
 }
 
