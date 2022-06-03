@@ -45,3 +45,19 @@ button:disabled,
 button:disabled:hover {
     background-color: #d6d3d1;
 }
+
+.menu {
+    animation: menu 150ms linear;
+    left: 0;
+    top: 0;
+}
+
+@keyframes menu {
+    0% {
+        left: -150px;
+    }
+
+    100% {
+        left: 0;
+    }
+}

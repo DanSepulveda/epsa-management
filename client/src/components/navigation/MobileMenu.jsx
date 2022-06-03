@@ -1,12 +1,14 @@
 import Link from './Link'
 import { RiCloseCircleFill } from 'react-icons/ri'
-import themes from '../../app/themes'
+import { useSelector } from 'react-redux'
+import { userState } from '../../redux/userSlice'
 
 const MobileMenu = ({ setOpenNav }) => {
-    const { menu } = themes.default
+    const { theme } = useSelector(userState)
+    const { menu } = theme
 
     return (
-        <section className={`sm:hidden absolute top-0 left-0 h-screen py-5 shrink-0 ${menu.bg}`}>
+        <section className={`sm:hidden absolute h-screen py-5 shrink-0 ${menu.bg} menu`}>
             <RiCloseCircleFill
                 className={`mr-3 text-4xl ml-auto mb-3 cursor-pointer ${menu.close}`}
                 onClick={() => setOpenNav(false)}
