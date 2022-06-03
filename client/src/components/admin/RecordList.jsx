@@ -8,16 +8,15 @@ import RecordForm from '../forms/RecordForm'
 import InfoBox from '../InfoBox'
 import OverForm from '../layout/OverForm'
 import RecordRow from './RecordRow'
-import themes from '../../app/themes'
 
 const RecordList = () => {
-    const { text } = themes.default
+    const { token, theme } = useSelector(userState)
+    const { text } = theme
     const dispatch = useDispatch()
     const [open, setOpen] = useState(false)
     const [tag, setTag] = useState('new')
     const [id, setId] = useState(null)
     const activities = useSelector(activityState).activities
-    const token = useSelector(userState).token
     const { records, fetching, fetched } = useSelector(recordState)
 
     useEffect(() => {

@@ -3,6 +3,7 @@ import { auth } from '../firebase.config'
 import { onAuthStateChanged } from 'firebase/auth'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { store } from './store'
+import defaultTheme from '../app/defaultTheme'
 
 const HOST = 'http://localhost:4000/api'
 
@@ -16,7 +17,8 @@ const initialState = {
   username: '',
   position: '',
   signature: '',
-  loading: false
+  loading: false,
+  theme: defaultTheme
 }
 
 export const getUser = () => {

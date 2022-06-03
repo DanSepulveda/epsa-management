@@ -1,15 +1,16 @@
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { activityState } from '../../redux/activitySlice'
+import { userState } from '../../redux/userSlice'
 import IconButton from '../buttons/IconButton'
 import TemplateForm from '../forms/TemplateForm'
 import InfoBox from '../InfoBox'
 import OverForm from '../layout/OverForm'
 import ActRow from './ActRow'
-import themes from '../../app/themes'
 
 const ActTemplates = () => {
-    const { text } = themes.default
+    const { theme } = useSelector(userState)
+    const { text } = theme
     const [open, setOpen] = useState(false)
     const activities = useSelector(activityState).activities
 

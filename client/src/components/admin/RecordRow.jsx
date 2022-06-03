@@ -7,13 +7,12 @@ import getErrorMsg from '../../app/getErrorMsg'
 import Swal from 'sweetalert2'
 import { BiEdit, BiTrash } from 'react-icons/bi'
 import Box from '../layout/Box'
-import themes from '../../app/themes'
 
 const RecordRow = ({ record, setTag, setId, setOpen }) => {
-    const { buttons, common } = themes.default
+    const { token, theme } = useSelector(userState)
+    const { buttons, common } = theme
     const date = useFormatDate(record.date)
     const dispatch = useDispatch()
-    const token = useSelector(userState).token
 
     const deleteAct = async () => {
         try {

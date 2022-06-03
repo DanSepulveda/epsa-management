@@ -8,13 +8,12 @@ import Swal from 'sweetalert2'
 import { BiEdit, BiTrash } from 'react-icons/bi'
 import TemplateForm from '../forms/TemplateForm'
 import Box from '../layout/Box'
-import themes from '../../app/themes'
 
 const ActRow = ({ activity }) => {
-    const { buttons, common } = themes.default
+    const { token, theme } = useSelector(userState)
+    const { buttons, common } = theme
     const [editable, setEditable] = useState(false)
     const dispatch = useDispatch()
-    const token = useSelector(userState).token
 
     const deleteAct = async () => {
         try {
