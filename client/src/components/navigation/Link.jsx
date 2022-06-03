@@ -1,12 +1,14 @@
+import { useSelector } from 'react-redux'
+import { userState } from '../../redux/userSlice'
 import { NavLink } from 'react-router-dom'
 import { MdOutlineDashboard, MdOutlinePendingActions } from 'react-icons/md'
 import { BsFileEarmarkWord } from 'react-icons/bs'
 import { RiFileCopy2Line } from 'react-icons/ri'
 import { CgProfile } from 'react-icons/cg'
-import themes from '../../app/themes'
 
 const Link = ({ to, children }) => {
-    const { menu, common } = themes.default
+    const { theme } = useSelector(userState)
+    const { menu, common } = theme
 
     const icons = {
         '/': <MdOutlineDashboard className={menu.icon} />,

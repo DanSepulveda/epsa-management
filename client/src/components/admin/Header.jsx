@@ -8,15 +8,14 @@ import { signOut } from 'firebase/auth'
 import { auth } from '../../firebase.config'
 import { HiMenu } from 'react-icons/hi'
 import MobileMenu from '../navigation/MobileMenu'
-import themes from '../../app/themes'
 
 const Header = () => {
     const path = useLocation().pathname
-    const { header, common } = themes.default
+    const { theme, username } = useSelector(userState)
+    const { header, common } = theme
     const [open, setOpen] = useState(false)
     const [openNav, setOpenNav] = useState(false)
     const dispatch = useDispatch()
-    const username = useSelector(userState).username
 
     const title = {
         '/': 'Resumen',
@@ -55,7 +54,9 @@ const Header = () => {
                 />
                 {
                     open &&
-                    <div className={`absolute top-14 right-3 sm:right-7 rounded-md flex flex-col items-center py-4 px-5 ${header.menu}`}>
+                    <div
+                        className={`absolute top-14 right-3 sm:right-7 rounded-md flex flex-col items-center py-4 px-5 ${header.menu}`}
+                    >
                         <NavLink
                             to='/profile'
                             className={`text-lg py-1 ${header.link} ${common.transition}`}

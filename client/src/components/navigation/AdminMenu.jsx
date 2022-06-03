@@ -1,8 +1,10 @@
+import { useSelector } from 'react-redux'
+import { userState } from '../../redux/userSlice'
 import Link from './Link'
-import themes from '../../app/themes'
 
 const AdminMenu = () => {
-    const { menu } = themes.default
+    const { theme } = useSelector(userState)
+    const { menu } = theme
 
     return (
         <section className={`hidden sm:block h-screen py-5 shrink-0 ${menu.bg}`}>
