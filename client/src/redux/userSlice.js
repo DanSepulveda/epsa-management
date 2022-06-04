@@ -1,8 +1,9 @@
 import axios from 'axios'
-import { auth } from '../firebase.config'
 import { onAuthStateChanged } from 'firebase/auth'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+// eslint-disable-next-line import/no-cycle
 import { store } from './store'
+import { auth } from '../firebase.config'
 import defaultTheme from '../app/defaultTheme'
 
 const HOST = 'http://localhost:4000/api'
@@ -18,51 +19,35 @@ const initialState = {
   position: '',
   signature: '',
   loading: false,
-  theme: defaultTheme
+  theme: defaultTheme,
 }
 
-export const getUser = () => {
-  onAuthStateChanged(auth, user => {
-    if (user) store.dispatch(login(user.accessToken))
-    else store.dispatch(changeLog())
+export const login = createAsyncThunk('login', async (token) => {
+  const response = await axios.get(`${HOST}/login`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   })
-}
+  return { token, success: response.data.success, response: response.data.response }
+})
 
-export const login = createAsyncThunk(
-  'login',
-  async (token) => {
-    const response = await axios.get(`${HOST}/login`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-    return { token, success: response.data.success, response: response.data.response }
-  }
-)
+export const signup = createAsyncThunk('signup', async (token) => {
+  const response = await axios.get(`${HOST}/signup`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  return { token, success: response.data.success, response: response.data.response }
+})
 
-export const signup = createAsyncThunk(
-  'signup',
-  async (token) => {
-    const response = await axios.get(`${HOST}/signup`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-    return { token, success: response.data.success, response: response.data.response }
-  }
-)
-
-export const editUser = createAsyncThunk(
-  'editUser',
-  async ({ values, token }) => {
-    const response = await axios.put(`${HOST}/user`, values, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-    return { token, success: response.data.success, response: response.data.response }
-  }
-)
+export const editUser = createAsyncThunk('editUser', async ({ values, token }) => {
+  const response = await axios.put(`${HOST}/user`, values, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  return { token, success: response.data.success, response: response.data.response }
+})
 
 export const userSlice = createSlice({
   name: 'user',
@@ -77,7 +62,7 @@ export const userSlice = createSlice({
       state.uid = null
       state.tokenlog = false
       state.token = null
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -122,6 +107,13 @@ export const userSlice = createSlice({
 })
 
 export const { changeLog, clearUserState } = userSlice.actions
+
+export const getUser = () => {
+  onAuthStateChanged(auth, (user) => {
+    if (user) store.dispatch(login(user.accessToken))
+    else store.dispatch(changeLog())
+  })
+}
 
 export const userState = (state) => state.user
 

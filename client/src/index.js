@@ -8,7 +8,8 @@ const container = document.getElementById('root')
 const root = createRoot(container)
 
 root.render(
+  // eslint-disable-next-line react/jsx-filename-extension
   <Provider store={store}>
     <App />
-  </Provider>
+  </Provider>,
 )
