@@ -18,20 +18,18 @@ function Profile() {
   return (
     <AdminView>
       <section className="flex flex-col gap-5 items-center">
-        <Tabs>
-          <Tab icon="basics" tab={1} actualTab={tab} setTab={setTab}>
+        <Tabs actualTab={tab} setTab={setTab}>
+          <Tab icon="basics" tab={1}>
             Datos básicos
           </Tab>
-          <Tab icon="signature" tab={2} actualTab={tab} setTab={setTab}>
+          <Tab icon="signature" tab={2}>
             Firma
           </Tab>
         </Tabs>
         {tab === 1 ? (
           <Box>
             <div className="py-5 px-3">
-              <h2
-                className={`text-center mb-4 text-2xl font-bold ${text.formTitle}`}
-              >
+              <h2 className={`text-center mb-4 text-2xl font-bold ${text.formTitle}`}>
                 Editar perfil
               </h2>
               <ProfileForm />

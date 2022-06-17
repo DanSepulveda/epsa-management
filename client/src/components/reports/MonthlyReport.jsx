@@ -18,6 +18,7 @@ function MonthlyReport() {
   const { common } = theme
 
   const HOST = 'http://localhost:4000/api'
+  // const HOST = 'https://us-central1-panel-epsa.cloudfunctions.net/app'
 
   const downloadFile = async (documentRef) => {
     await getDownloadURL(ref(storage, documentRef)).then((url) => {

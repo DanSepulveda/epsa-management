@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 
 const HOST = 'http://localhost:4000/api'
+// const HOST = 'https://us-central1-panel-epsa.cloudfunctions.net/app'
 
 const initialState = {
   activities: [],

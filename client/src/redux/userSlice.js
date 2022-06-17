@@ -7,6 +7,7 @@ import { auth } from '../firebase.config'
 import defaultTheme from '../app/defaultTheme'
 
 const HOST = 'http://localhost:4000/api'
+// const HOST = 'https://us-central1-panel-epsa.cloudfunctions.net/app'
 
 const initialState = {
   _id: null,
