@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
-
-const HOST = 'http://localhost:4000/api'
+import { HOST } from '../app/app.config'
 
 const initialState = {
     activities: [],

@@ -9,14 +9,13 @@ import getErrorMsg from '../../app/getErrorMsg'
 import Box from '../layout/Box'
 import IconButton from '../buttons/IconButton'
 import themes from '../../app/themes'
+import { HOST } from '../../app/app.config'
 
 const MonthlyReport = () => {
     const [date, setDate] = useState('')
     const [loading, setLoading] = useState(false)
     const { token } = useSelector(userState)
     const { common } = themes.default
-
-    const HOST = 'http://localhost:4000/api'
 
     const downloadFile = async (documentRef) => {
         await getDownloadURL(ref(storage, documentRef)).then((url) => {

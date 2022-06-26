@@ -20,7 +20,8 @@ const App = () => {
     if (!_id) getUser()
     //eslint-disable-next-line
   }, [])
-
+  console.log(_id)
+  console.log(tokenlog)
   if (tokenlog) {
     return <Loader />
   }
