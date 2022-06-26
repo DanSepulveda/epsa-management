@@ -18,9 +18,15 @@ function App() {
   const { _id, tokenlog } = useSelector(userState)
 
   useEffect(() => {
-    if (!_id) getUser()
+    console.log('entro al useEffect')
+    if (!_id) {
+      console.log('entro al if')
+      getUser()
+    }
     //  eslint-disable-next-line
   }, [])
+  console.log(_id)
+  console.log(tokenlog)
 
   if (tokenlog) {
     return <Loader />
