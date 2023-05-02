@@ -19,47 +19,38 @@ const initialState = {
 }
 
 export const getUser = () => {
-  onAuthStateChanged(auth, user => {
+  onAuthStateChanged(auth, (user) => {
     if (user) store.dispatch(login(user.accessToken))
     else store.dispatch(changeLog())
   })
 }
 
-export const login = createAsyncThunk(
-  'login',
-  async (token) => {
-    const response = await axios.get(`${HOST}/login`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-    return { token, success: response.data.success, response: response.data.response }
-  }
-)
+export const login = createAsyncThunk('login', async (token) => {
+  const response = await axios.get(`${HOST}/login`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+  return { token, success: response.data.success, response: response.data.response }
+})
 
-export const signup = createAsyncThunk(
-  'signup',
-  async (token) => {
-    const response = await axios.get(`${HOST}/signup`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-    return { token, success: response.data.success, response: response.data.response }
-  }
-)
+export const signup = createAsyncThunk('signup', async (token) => {
+  const response = await axios.get(`${HOST}/signup`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+  return { token, success: response.data.success, response: response.data.response }
+})
 
-export const editUser = createAsyncThunk(
-  'editUser',
-  async ({ values, token }) => {
-    const response = await axios.put(`${HOST}/user`, values, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-    return { token, success: response.data.success, response: response.data.response }
-  }
-)
+export const editUser = createAsyncThunk('editUser', async ({ values, token }) => {
+  const response = await axios.put(`${HOST}/user`, values, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+  return { token, success: response.data.success, response: response.data.response }
+})
 
 export const userSlice = createSlice({
   name: 'user',
@@ -115,7 +106,7 @@ export const userSlice = createSlice({
         }
         state.loading = false
       })
-  },
+  }
 })
 
 export const { changeLog, clearUserState } = userSlice.actions
