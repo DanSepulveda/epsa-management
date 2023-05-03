@@ -11,6 +11,6 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 app.use('/api', router)
-app.listen(4000, () => console.log('Server running on port 4000'))
+app.listen(4001, () => console.log('Server running on port 4000'))
 
 exports.app = functions.https.onRequest(app)

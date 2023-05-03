@@ -4,3 +4,7 @@ panel-epsa-firebase-adminsdk-xb4bk-73e14de9e4.json
 client/node_modules
 client/.env
 client/build
+public
+.firebase
+.github
+*.log
